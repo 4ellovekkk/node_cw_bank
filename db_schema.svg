@@ -1,0 +1,347 @@
+<svg width="659" height="651" viewBox="0 0 494.25 488.25" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="translate(212.93219831176143,462.8967400111411) scale(0.435275281648062)">
+<title>G</title>
+<polygon fill="transparent" stroke="transparent" points="-4,4 -4,-724 673,-724 673,4 -4,4"></polygon>
+<!-- role -->
+<g id="node1" class="node" style="opacity: 1;">
+<title>role</title>
+<polygon fill="#232d95" stroke="transparent" points="496.5,-459 496.5,-477 669.5,-477 669.5,-459 496.5,-459"></polygon>
+<polygon fill="none" stroke="white" points="496.5,-459 496.5,-477 669.5,-477 669.5,-459 496.5,-459"></polygon>
+<text text-anchor="start" x="499.5" y="-466" font-family="opensans" font-weight="bold" font-size="10.00" fill="white">role</text>
+<polygon fill="#404040" stroke="transparent" points="496.5,-441 496.5,-459 669.5,-459 669.5,-441 496.5,-441"></polygon>
+<polygon fill="none" stroke="white" points="496.5,-441 496.5,-459 669.5,-459 669.5,-441 496.5,-441"></polygon>
+<text text-anchor="start" x="499.13" y="-447" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;id int IDENTITY(1, 1) primary key</text>
+<polygon fill="#404040" stroke="transparent" points="496.5,-423 496.5,-441 669.5,-441 669.5,-423 496.5,-423"></polygon>
+<polygon fill="none" stroke="white" points="496.5,-423 496.5,-441 669.5,-441 669.5,-423 496.5,-423"></polygon>
+<text text-anchor="start" x="499.5" y="-429" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;role_name NVARCHAR(200)</text>
+<polygon fill="#404040" stroke="transparent" points="496.5,-405 496.5,-423 669.5,-423 669.5,-405 496.5,-405"></polygon>
+<polygon fill="none" stroke="white" points="496.5,-405 496.5,-423 669.5,-423 669.5,-405 496.5,-405"></polygon>
+<text text-anchor="start" x="499.5" y="-411" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;role_privs_level INT</text>
+</g>
+<!-- users -->
+<g id="node2" class="node" style="opacity: 1;">
+<title>users</title>
+<polygon fill="#232d95" stroke="transparent" points="285.5,-612 285.5,-630 445.5,-630 445.5,-612 285.5,-612"></polygon>
+<polygon fill="none" stroke="white" points="285.5,-612 285.5,-630 445.5,-630 445.5,-612 285.5,-612"></polygon>
+<text text-anchor="start" x="288.5" y="-619" font-family="opensans" font-weight="bold" font-size="10.00" fill="white">users</text>
+<polygon fill="#404040" stroke="transparent" points="285.5,-594 285.5,-612 445.5,-612 445.5,-594 285.5,-594"></polygon>
+<polygon fill="none" stroke="white" points="285.5,-594 285.5,-612 445.5,-612 445.5,-594 285.5,-594"></polygon>
+<text text-anchor="start" x="288.5" y="-601" font-family="opensans" font-size="10.00" fill="#e2c044">PK </text>
+<text text-anchor="start" x="303.78" y="-601" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="310.78" y="-601" font-family="opensans" font-size="10.00" fill="white"> id int IDENTITY(1, 1</text>
+<polygon fill="#404040" stroke="transparent" points="285.5,-576 285.5,-594 445.5,-594 445.5,-576 285.5,-576"></polygon>
+<polygon fill="none" stroke="white" points="285.5,-576 285.5,-594 445.5,-594 445.5,-576 285.5,-576"></polygon>
+<text text-anchor="start" x="288.5" y="-582" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;first_name NVARCHAR(200)</text>
+<polygon fill="#404040" stroke="transparent" points="285.5,-558 285.5,-576 445.5,-576 445.5,-558 285.5,-558"></polygon>
+<polygon fill="none" stroke="white" points="285.5,-558 285.5,-576 445.5,-576 445.5,-558 285.5,-558"></polygon>
+<text text-anchor="start" x="288.15" y="-564" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;midle_name NVARCHAR(200)</text>
+<polygon fill="#404040" stroke="transparent" points="285.5,-540 285.5,-558 445.5,-558 445.5,-540 285.5,-540"></polygon>
+<polygon fill="none" stroke="white" points="285.5,-540 285.5,-558 445.5,-558 445.5,-540 285.5,-540"></polygon>
+<text text-anchor="start" x="288.5" y="-546" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;last_name NVARCHAR(200)</text>
+<polygon fill="#404040" stroke="transparent" points="285.5,-522 285.5,-540 445.5,-540 445.5,-522 285.5,-522"></polygon>
+<polygon fill="none" stroke="white" points="285.5,-522 285.5,-540 445.5,-540 445.5,-522 285.5,-522"></polygon>
+<text text-anchor="start" x="288.5" y="-528" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;phone NCHAR(15)</text>
+<polygon fill="#404040" stroke="transparent" points="285.5,-504 285.5,-522 445.5,-522 445.5,-504 285.5,-504"></polygon>
+<polygon fill="none" stroke="white" points="285.5,-504 285.5,-522 445.5,-522 445.5,-504 285.5,-504"></polygon>
+<text text-anchor="start" x="288.5" y="-511" font-family="opensans" font-size="10.00" fill="#e2c044">FK </text>
+<text text-anchor="start" x="303.78" y="-511" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="310.78" y="-511" font-family="opensans" font-size="10.00" fill="white"> user_role int</text>
+<polygon fill="#404040" stroke="transparent" points="285.5,-486 285.5,-504 445.5,-504 445.5,-486 285.5,-486"></polygon>
+<polygon fill="none" stroke="white" points="285.5,-486 285.5,-504 445.5,-504 445.5,-486 285.5,-486"></polygon>
+<text text-anchor="start" x="288.5" y="-492" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;username VARCHAR(200)</text>
+<polygon fill="#404040" stroke="transparent" points="285.5,-468 285.5,-486 445.5,-486 445.5,-468 285.5,-468"></polygon>
+<polygon fill="none" stroke="white" points="285.5,-468 285.5,-486 445.5,-486 445.5,-468 285.5,-468"></polygon>
+<text text-anchor="start" x="288.5" y="-474" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;passwd VARCHAR(255)</text>
+</g>
+<!-- users&#45;&gt;role -->
+<g id="edge1" class="edge" style="opacity: 1;">
+<title>users:user_role-&gt;role:id</title>
+<path fill="none" stroke="#5ea54a" d="M446.5,-513C478.08,-513 464.58,-463.46 485.94,-452.24"></path>
+<polygon fill="#5ea54a" stroke="#5ea54a" points="487,-455.59 496,-450 485.48,-448.76 487,-455.59"></polygon>
+</g>
+<!-- account_types -->
+<g id="node3" class="node" style="opacity: 1;">
+<title>account_types</title>
+<polygon fill="#232d95" stroke="transparent" points="288.5,-432 288.5,-450 443.5,-450 443.5,-432 288.5,-432"></polygon>
+<polygon fill="none" stroke="white" points="288.5,-432 288.5,-450 443.5,-450 443.5,-432 288.5,-432"></polygon>
+<text text-anchor="start" x="291.5" y="-439" font-family="opensans" font-weight="bold" font-size="10.00" fill="white">account_types</text>
+<polygon fill="#404040" stroke="transparent" points="288.5,-414 288.5,-432 443.5,-432 443.5,-414 288.5,-414"></polygon>
+<polygon fill="none" stroke="white" points="288.5,-414 288.5,-432 443.5,-432 443.5,-414 288.5,-414"></polygon>
+<text text-anchor="start" x="291.5" y="-421" font-family="opensans" font-size="10.00" fill="#e2c044">PK </text>
+<text text-anchor="start" x="306.78" y="-421" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="313.78" y="-421" font-family="opensans" font-size="10.00" fill="white"> id int IDENTITY(1, 1</text>
+<polygon fill="#404040" stroke="transparent" points="288.5,-396 288.5,-414 443.5,-414 443.5,-396 288.5,-396"></polygon>
+<polygon fill="none" stroke="white" points="288.5,-396 288.5,-414 443.5,-414 443.5,-396 288.5,-396"></polygon>
+<text text-anchor="start" x="291.43" y="-402" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;type_name NVARCHAR(200)</text>
+<polygon fill="#404040" stroke="transparent" points="288.5,-378 288.5,-396 443.5,-396 443.5,-378 288.5,-378"></polygon>
+<polygon fill="none" stroke="white" points="288.5,-378 288.5,-396 443.5,-396 443.5,-378 288.5,-378"></polygon>
+<text text-anchor="start" x="291.5" y="-385" font-family="opensans" font-size="10.00" fill="#e2c044">FK </text>
+<text text-anchor="start" x="306.78" y="-385" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="313.78" y="-385" font-family="opensans" font-size="10.00" fill="white"> owner_type int</text>
+</g>
+<!-- account_types&#45;&gt;role -->
+<g id="edge2" class="edge" style="opacity: 1;">
+<title>account_types:owner_type-&gt;role:id</title>
+<path fill="none" stroke="#5ea54a" d="M444.5,-387C476.71,-387 463.71,-436.97 486.03,-447.9"></path>
+<polygon fill="#5ea54a" stroke="#5ea54a" points="485.49,-451.37 496,-450 486.93,-444.52 485.49,-451.37"></polygon>
+</g>
+<!-- currency -->
+<g id="node4" class="node" style="opacity: 1;">
+<title>currency</title>
+<polygon fill="#232d95" stroke="transparent" points="272.5,-306 272.5,-324 459.5,-324 459.5,-306 272.5,-306"></polygon>
+<polygon fill="none" stroke="white" points="272.5,-306 272.5,-324 459.5,-324 459.5,-306 272.5,-306"></polygon>
+<text text-anchor="start" x="275.5" y="-313" font-family="opensans" font-weight="bold" font-size="10.00" fill="white">currency</text>
+<polygon fill="#404040" stroke="transparent" points="272.5,-288 272.5,-306 459.5,-306 459.5,-288 272.5,-288"></polygon>
+<polygon fill="none" stroke="white" points="272.5,-288 272.5,-306 459.5,-306 459.5,-288 272.5,-288"></polygon>
+<text text-anchor="start" x="275.5" y="-294" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;id int IDENTITY(1, 1) primary KEY</text>
+<polygon fill="#404040" stroke="transparent" points="272.5,-270 272.5,-288 459.5,-288 459.5,-270 272.5,-270"></polygon>
+<polygon fill="none" stroke="white" points="272.5,-270 272.5,-288 459.5,-288 459.5,-270 272.5,-270"></polygon>
+<text text-anchor="start" x="275.5" y="-276" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;currecy_name NVARCHAR(200)</text>
+<polygon fill="#404040" stroke="transparent" points="272.5,-252 272.5,-270 459.5,-270 459.5,-252 272.5,-252"></polygon>
+<polygon fill="none" stroke="white" points="272.5,-252 272.5,-270 459.5,-270 459.5,-252 272.5,-252"></polygon>
+<text text-anchor="start" x="275.06" y="-258" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;currency_short_name NVARCHAR(3)</text>
+</g>
+<!-- currency_convertion -->
+<g id="node5" class="node" style="opacity: 1;">
+<title>currency_convertion</title>
+<polygon fill="#232d95" stroke="transparent" points="48.5,-342 48.5,-360 187.5,-360 187.5,-342 48.5,-342"></polygon>
+<polygon fill="none" stroke="white" points="48.5,-342 48.5,-360 187.5,-360 187.5,-342 48.5,-342"></polygon>
+<text text-anchor="start" x="51.5" y="-349" font-family="opensans" font-weight="bold" font-size="10.00" fill="white">currency_convertion</text>
+<polygon fill="#404040" stroke="transparent" points="48.5,-324 48.5,-342 187.5,-342 187.5,-324 48.5,-324"></polygon>
+<polygon fill="none" stroke="white" points="48.5,-324 48.5,-342 187.5,-342 187.5,-324 48.5,-324"></polygon>
+<text text-anchor="start" x="51.18" y="-331" font-family="opensans" font-size="10.00" fill="#e2c044">PK </text>
+<text text-anchor="start" x="66.46" y="-331" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="73.46" y="-331" font-family="opensans" font-size="10.00" fill="white"> pair_id int IDENTITY(1, 1</text>
+<polygon fill="#404040" stroke="transparent" points="48.5,-306 48.5,-324 187.5,-324 187.5,-306 48.5,-306"></polygon>
+<polygon fill="none" stroke="white" points="48.5,-306 48.5,-324 187.5,-324 187.5,-306 48.5,-306"></polygon>
+<text text-anchor="start" x="51.5" y="-313" font-family="opensans" font-size="10.00" fill="#e2c044">FK </text>
+<text text-anchor="start" x="66.78" y="-313" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="73.78" y="-313" font-family="opensans" font-size="10.00" fill="white"> currncy1 int</text>
+<polygon fill="#404040" stroke="transparent" points="48.5,-288 48.5,-306 187.5,-306 187.5,-288 48.5,-288"></polygon>
+<polygon fill="none" stroke="white" points="48.5,-288 48.5,-306 187.5,-306 187.5,-288 48.5,-288"></polygon>
+<text text-anchor="start" x="51.5" y="-295" font-family="opensans" font-size="10.00" fill="#e2c044">FK </text>
+<text text-anchor="start" x="66.78" y="-295" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="73.78" y="-295" font-family="opensans" font-size="10.00" fill="white"> currency2 int</text>
+<polygon fill="#404040" stroke="transparent" points="48.5,-270 48.5,-288 187.5,-288 187.5,-270 48.5,-270"></polygon>
+<polygon fill="none" stroke="white" points="48.5,-270 48.5,-288 187.5,-288 187.5,-270 48.5,-270"></polygon>
+<text text-anchor="start" x="51.5" y="-276" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ratio FLOAT</text>
+</g>
+<!-- currency_convertion&#45;&gt;currency -->
+<g id="edge3" class="edge" style="opacity: 1;">
+<title>currency_convertion:currncy1-&gt;currency:id</title>
+<path fill="none" stroke="#5ea54a" d="M188.5,-315C222.56,-315 232,-300.34 261.25,-297.48"></path>
+<polygon fill="#5ea54a" stroke="#5ea54a" points="261.68,-300.97 271.5,-297 261.35,-293.97 261.68,-300.97"></polygon>
+</g>
+<!-- currency_convertion&#45;&gt;currency -->
+<g id="edge4" class="edge" style="opacity: 1;">
+<title>currency_convertion:currency2-&gt;currency:id</title>
+<path fill="none" stroke="#5ea54a" d="M188.5,-297C221.79,-297 232.55,-297 261.43,-297"></path>
+<polygon fill="#5ea54a" stroke="#5ea54a" points="261.5,-300.5 271.5,-297 261.5,-293.5 261.5,-300.5"></polygon>
+</g>
+<!-- accounts -->
+<g id="node6" class="node" style="opacity: 1;">
+<title>accounts</title>
+<polygon fill="#232d95" stroke="transparent" points="58.5,-486 58.5,-504 177.5,-504 177.5,-486 58.5,-486"></polygon>
+<polygon fill="none" stroke="white" points="58.5,-486 58.5,-504 177.5,-504 177.5,-486 58.5,-486"></polygon>
+<text text-anchor="start" x="61.5" y="-493" font-family="opensans" font-weight="bold" font-size="10.00" fill="white">accounts</text>
+<polygon fill="#404040" stroke="transparent" points="58.5,-468 58.5,-486 177.5,-486 177.5,-468 58.5,-468"></polygon>
+<polygon fill="none" stroke="white" points="58.5,-468 58.5,-486 177.5,-486 177.5,-468 58.5,-468"></polygon>
+<text text-anchor="start" x="61.46" y="-475" font-family="opensans" font-size="10.00" fill="#e2c044">PK </text>
+<text text-anchor="start" x="76.74" y="-475" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="83.73" y="-475" font-family="opensans" font-size="10.00" fill="white"> id int IDENTITY(1, 1</text>
+<polygon fill="#404040" stroke="transparent" points="58.5,-450 58.5,-468 177.5,-468 177.5,-450 58.5,-450"></polygon>
+<polygon fill="none" stroke="white" points="58.5,-450 58.5,-468 177.5,-468 177.5,-450 58.5,-450"></polygon>
+<text text-anchor="start" x="61.5" y="-457" font-family="opensans" font-size="10.00" fill="#e2c044">FK </text>
+<text text-anchor="start" x="76.78" y="-457" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="83.78" y="-457" font-family="opensans" font-size="10.00" fill="white"> owner_id int</text>
+<polygon fill="#404040" stroke="transparent" points="58.5,-432 58.5,-450 177.5,-450 177.5,-432 58.5,-432"></polygon>
+<polygon fill="none" stroke="white" points="58.5,-432 58.5,-450 177.5,-450 177.5,-432 58.5,-432"></polygon>
+<text text-anchor="start" x="61.5" y="-439" font-family="opensans" font-size="10.00" fill="#e2c044">FK </text>
+<text text-anchor="start" x="76.78" y="-439" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="83.78" y="-439" font-family="opensans" font-size="10.00" fill="white"> account_type int</text>
+<polygon fill="#404040" stroke="transparent" points="58.5,-414 58.5,-432 177.5,-432 177.5,-414 58.5,-414"></polygon>
+<polygon fill="none" stroke="white" points="58.5,-414 58.5,-432 177.5,-432 177.5,-414 58.5,-414"></polygon>
+<text text-anchor="start" x="61.5" y="-420" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;balance money</text>
+<polygon fill="#404040" stroke="transparent" points="58.5,-396 58.5,-414 177.5,-414 177.5,-396 58.5,-396"></polygon>
+<polygon fill="none" stroke="white" points="58.5,-396 58.5,-414 177.5,-414 177.5,-396 58.5,-396"></polygon>
+<text text-anchor="start" x="61.5" y="-403" font-family="opensans" font-size="10.00" fill="#e2c044">FK </text>
+<text text-anchor="start" x="76.78" y="-403" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="83.78" y="-403" font-family="opensans" font-size="10.00" fill="white"> currency int</text>
+<polygon fill="#404040" stroke="transparent" points="58.5,-378 58.5,-396 177.5,-396 177.5,-378 58.5,-378"></polygon>
+<polygon fill="none" stroke="white" points="58.5,-378 58.5,-396 177.5,-396 177.5,-378 58.5,-378"></polygon>
+<text text-anchor="start" x="61.5" y="-384" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;is_locked BIT</text>
+</g>
+<!-- accounts&#45;&gt;users -->
+<g id="edge5" class="edge" style="opacity: 1;">
+<title>accounts:owner_id-&gt;users:id</title>
+<path fill="none" stroke="#5ea54a" d="M178.5,-459C219.18,-459 210.91,-498.22 235,-531 255.75,-559.23 247.74,-595.14 274.51,-601.88"></path>
+<polygon fill="#5ea54a" stroke="#5ea54a" points="274.17,-605.37 284.5,-603 274.95,-598.41 274.17,-605.37"></polygon>
+</g>
+<!-- accounts&#45;&gt;account_types -->
+<g id="edge6" class="edge" style="opacity: 1;">
+<title>accounts:account_type-&gt;account_types:id</title>
+<path fill="none" stroke="#5ea54a" d="M178.5,-441C224.05,-441 236.64,-425.51 277.43,-423.27"></path>
+<polygon fill="#5ea54a" stroke="#5ea54a" points="277.6,-426.77 287.5,-423 277.41,-419.77 277.6,-426.77"></polygon>
+</g>
+<!-- accounts&#45;&gt;currency -->
+<g id="edge7" class="edge" style="opacity: 1;">
+<title>accounts:currency-&gt;currency:id</title>
+<path fill="none" stroke="#5ea54a" d="M178.5,-405C208.28,-405 215,-391.06 235,-369 256.36,-345.43 240.33,-307.05 261.44,-298.66"></path>
+<polygon fill="#5ea54a" stroke="#5ea54a" points="262.2,-302.08 271.5,-297 261.06,-295.17 262.2,-302.08"></polygon>
+</g>
+<!-- credit_types -->
+<g id="node7" class="node" style="opacity: 1;">
+<title>credit_types</title>
+<polygon fill="#232d95" stroke="transparent" points="274.5,-198 274.5,-216 456.5,-216 456.5,-198 274.5,-198"></polygon>
+<polygon fill="none" stroke="white" points="274.5,-198 274.5,-216 456.5,-216 456.5,-198 274.5,-198"></polygon>
+<text text-anchor="start" x="277.5" y="-205" font-family="opensans" font-weight="bold" font-size="10.00" fill="white">credit_types</text>
+<polygon fill="#404040" stroke="transparent" points="274.5,-180 274.5,-198 456.5,-198 456.5,-180 274.5,-180"></polygon>
+<polygon fill="none" stroke="white" points="274.5,-180 274.5,-198 456.5,-198 456.5,-180 274.5,-180"></polygon>
+<text text-anchor="start" x="277.5" y="-186" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;id int IDENTITY(1, 1) primary key</text>
+<polygon fill="#404040" stroke="transparent" points="274.5,-162 274.5,-180 456.5,-180 456.5,-162 274.5,-162"></polygon>
+<polygon fill="none" stroke="white" points="274.5,-162 274.5,-180 456.5,-180 456.5,-162 274.5,-162"></polygon>
+<text text-anchor="start" x="277.05" y="-168" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;credit_type_name NVARCHAR(200)</text>
+</g>
+<!-- credit_conditions -->
+<g id="node8" class="node" style="opacity: 1;">
+<title>credit_conditions</title>
+<polygon fill="#232d95" stroke="transparent" points="37.5,-234 37.5,-252 197.5,-252 197.5,-234 37.5,-234"></polygon>
+<polygon fill="none" stroke="white" points="37.5,-234 37.5,-252 197.5,-252 197.5,-234 37.5,-234"></polygon>
+<text text-anchor="start" x="40.5" y="-241" font-family="opensans" font-weight="bold" font-size="10.00" fill="white">credit_conditions</text>
+<polygon fill="#404040" stroke="transparent" points="37.5,-216 37.5,-234 197.5,-234 197.5,-216 37.5,-216"></polygon>
+<polygon fill="none" stroke="white" points="37.5,-216 37.5,-234 197.5,-234 197.5,-216 37.5,-216"></polygon>
+<text text-anchor="start" x="40.5" y="-223" font-family="opensans" font-size="10.00" fill="#e2c044">PK </text>
+<text text-anchor="start" x="55.78" y="-223" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="62.78" y="-223" font-family="opensans" font-size="10.00" fill="white"> id int IDENTITY(1, 1</text>
+<polygon fill="#404040" stroke="transparent" points="37.5,-198 37.5,-216 197.5,-216 197.5,-198 37.5,-198"></polygon>
+<polygon fill="none" stroke="white" points="37.5,-198 37.5,-216 197.5,-216 197.5,-198 37.5,-198"></polygon>
+<text text-anchor="start" x="40.16" y="-204" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;credit_name NVARCHAR(200)</text>
+<polygon fill="#404040" stroke="transparent" points="37.5,-180 37.5,-198 197.5,-198 197.5,-180 37.5,-180"></polygon>
+<polygon fill="none" stroke="white" points="37.5,-180 37.5,-198 197.5,-198 197.5,-180 37.5,-180"></polygon>
+<text text-anchor="start" x="40.5" y="-187" font-family="opensans" font-size="10.00" fill="#e2c044">FK </text>
+<text text-anchor="start" x="55.78" y="-187" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="62.78" y="-187" font-family="opensans" font-size="10.00" fill="white"> credit_type int</text>
+<polygon fill="#404040" stroke="transparent" points="37.5,-162 37.5,-180 197.5,-180 197.5,-162 37.5,-162"></polygon>
+<polygon fill="none" stroke="white" points="37.5,-162 37.5,-180 197.5,-180 197.5,-162 37.5,-162"></polygon>
+<text text-anchor="start" x="40.5" y="-168" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;percentage_per_year FLOAT</text>
+<polygon fill="#404040" stroke="transparent" points="37.5,-144 37.5,-162 197.5,-162 197.5,-144 37.5,-144"></polygon>
+<polygon fill="none" stroke="white" points="37.5,-144 37.5,-162 197.5,-162 197.5,-144 37.5,-144"></polygon>
+<text text-anchor="start" x="40.5" y="-150" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;max_sum money</text>
+<polygon fill="#404040" stroke="transparent" points="37.5,-126 37.5,-144 197.5,-144 197.5,-126 37.5,-126"></polygon>
+<polygon fill="none" stroke="white" points="37.5,-126 37.5,-144 197.5,-144 197.5,-126 37.5,-126"></polygon>
+<text text-anchor="start" x="40.5" y="-133" font-family="opensans" font-size="10.00" fill="#e2c044">FK </text>
+<text text-anchor="start" x="55.78" y="-133" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="62.78" y="-133" font-family="opensans" font-size="10.00" fill="white"> currency int</text>
+</g>
+<!-- credit_conditions&#45;&gt;currency -->
+<g id="edge9" class="edge" style="opacity: 1;">
+<title>credit_conditions:currency-&gt;currency:id</title>
+<path fill="none" stroke="#5ea54a" d="M198.5,-135C273.77,-135 200.13,-282.17 261.44,-295.97"></path>
+<polygon fill="#5ea54a" stroke="#5ea54a" points="261.19,-299.46 271.5,-297 261.91,-292.5 261.19,-299.46"></polygon>
+</g>
+<!-- credit_conditions&#45;&gt;credit_types -->
+<g id="edge8" class="edge" style="opacity: 1;">
+<title>credit_conditions:credit_type-&gt;credit_types:id</title>
+<path fill="none" stroke="#5ea54a" d="M198.5,-189C228.19,-189 238.04,-189 263.39,-189"></path>
+<polygon fill="#5ea54a" stroke="#5ea54a" points="263.5,-192.5 273.5,-189 263.5,-185.5 263.5,-192.5"></polygon>
+</g>
+<!-- deposit_types -->
+<g id="node9" class="node" style="opacity: 1;">
+<title>deposit_types</title>
+<polygon fill="#232d95" stroke="transparent" points="271.5,-54 271.5,-72 460.5,-72 460.5,-54 271.5,-54"></polygon>
+<polygon fill="none" stroke="white" points="271.5,-54 271.5,-72 460.5,-72 460.5,-54 271.5,-54"></polygon>
+<text text-anchor="start" x="274.5" y="-61" font-family="opensans" font-weight="bold" font-size="10.00" fill="white">deposit_types</text>
+<polygon fill="#404040" stroke="transparent" points="271.5,-36 271.5,-54 460.5,-54 460.5,-36 271.5,-36"></polygon>
+<polygon fill="none" stroke="white" points="271.5,-36 271.5,-54 460.5,-54 460.5,-36 271.5,-36"></polygon>
+<text text-anchor="start" x="274.5" y="-42" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;id int IDENTITY(1, 1) PRIMARY key</text>
+<polygon fill="#404040" stroke="transparent" points="271.5,-18 271.5,-36 460.5,-36 460.5,-18 271.5,-18"></polygon>
+<polygon fill="none" stroke="white" points="271.5,-18 271.5,-36 460.5,-36 460.5,-18 271.5,-18"></polygon>
+<text text-anchor="start" x="274.49" y="-24" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;deposit_type_name NVARCHAR(200)</text>
+</g>
+<!-- deposit_conditioins -->
+<g id="node10" class="node" style="opacity: 1;">
+<title>deposit_conditioins</title>
+<polygon fill="#232d95" stroke="transparent" points="13.5,-90 13.5,-108 222.5,-108 222.5,-90 13.5,-90"></polygon>
+<polygon fill="none" stroke="white" points="13.5,-90 13.5,-108 222.5,-108 222.5,-90 13.5,-90"></polygon>
+<text text-anchor="start" x="16.5" y="-97" font-family="opensans" font-weight="bold" font-size="10.00" fill="white">deposit_conditioins</text>
+<polygon fill="#404040" stroke="transparent" points="13.5,-72 13.5,-90 222.5,-90 222.5,-72 13.5,-72"></polygon>
+<polygon fill="none" stroke="white" points="13.5,-72 13.5,-90 222.5,-90 222.5,-72 13.5,-72"></polygon>
+<text text-anchor="start" x="16.5" y="-78" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;id int IDENTITY(1, 1) PRIMARY key</text>
+<polygon fill="#404040" stroke="transparent" points="13.5,-54 13.5,-72 222.5,-72 222.5,-54 13.5,-54"></polygon>
+<polygon fill="none" stroke="white" points="13.5,-54 13.5,-72 222.5,-72 222.5,-54 13.5,-54"></polygon>
+<text text-anchor="start" x="16.21" y="-60" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;deposit_condition_name NVARCHAR(200)</text>
+<polygon fill="#404040" stroke="transparent" points="13.5,-36 13.5,-54 222.5,-54 222.5,-36 13.5,-36"></polygon>
+<polygon fill="none" stroke="white" points="13.5,-36 13.5,-54 222.5,-54 222.5,-36 13.5,-36"></polygon>
+<text text-anchor="start" x="16.5" y="-43" font-family="opensans" font-size="10.00" fill="#e2c044">FK </text>
+<text text-anchor="start" x="31.78" y="-43" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="38.78" y="-43" font-family="opensans" font-size="10.00" fill="white"> deposit_type int</text>
+<polygon fill="#404040" stroke="transparent" points="13.5,-18 13.5,-36 222.5,-36 222.5,-18 13.5,-18"></polygon>
+<polygon fill="none" stroke="white" points="13.5,-18 13.5,-36 222.5,-36 222.5,-18 13.5,-18"></polygon>
+<text text-anchor="start" x="16.5" y="-24" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;percentage_per_year FLOAT</text>
+<polygon fill="#404040" stroke="transparent" points="13.5,0 13.5,-18 222.5,-18 222.5,0 13.5,0"></polygon>
+<polygon fill="none" stroke="white" points="13.5,0 13.5,-18 222.5,-18 222.5,0 13.5,0"></polygon>
+<text text-anchor="start" x="16.5" y="-7" font-family="opensans" font-size="10.00" fill="#e2c044">FK </text>
+<text text-anchor="start" x="31.78" y="-7" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="38.78" y="-7" font-family="opensans" font-size="10.00" fill="white"> currency int</text>
+</g>
+<!-- deposit_conditioins&#45;&gt;currency -->
+<g id="edge11" class="edge" style="opacity: 1;">
+<title>deposit_conditioins:currency-&gt;currency:id</title>
+<path fill="none" stroke="#5ea54a" d="M223.5,-9C284.71,-9 215.41,-265.3 261.83,-294.33"></path>
+<polygon fill="#5ea54a" stroke="#5ea54a" points="260.93,-297.71 271.5,-297 262.79,-290.97 260.93,-297.71"></polygon>
+</g>
+<!-- deposit_conditioins&#45;&gt;deposit_types -->
+<g id="edge10" class="edge" style="opacity: 1;">
+<title>deposit_conditioins:deposit_type-&gt;deposit_types:id</title>
+<path fill="none" stroke="#5ea54a" d="M223.5,-45C240.82,-45 247.48,-45 260.97,-45"></path>
+<polygon fill="#5ea54a" stroke="#5ea54a" points="261,-48.5 271,-45 261,-41.5 261,-48.5"></polygon>
+</g>
+<!-- action_types -->
+<g id="node11" class="node" style="opacity: 1;">
+<title>action_types</title>
+<polygon fill="#232d95" stroke="transparent" points="36.5,-702 36.5,-720 198.5,-720 198.5,-702 36.5,-702"></polygon>
+<polygon fill="none" stroke="white" points="36.5,-702 36.5,-720 198.5,-720 198.5,-702 36.5,-702"></polygon>
+<text text-anchor="start" x="39.5" y="-709" font-family="opensans" font-weight="bold" font-size="10.00" fill="white">action_types</text>
+<polygon fill="#404040" stroke="transparent" points="36.5,-684 36.5,-702 198.5,-702 198.5,-684 36.5,-684"></polygon>
+<polygon fill="none" stroke="white" points="36.5,-684 36.5,-702 198.5,-702 198.5,-684 36.5,-684"></polygon>
+<text text-anchor="start" x="39.5" y="-691" font-family="opensans" font-size="10.00" fill="#e2c044">PK </text>
+<text text-anchor="start" x="54.78" y="-691" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="61.78" y="-691" font-family="opensans" font-size="10.00" fill="white"> id int IDENTITY(1, 1</text>
+<polygon fill="#404040" stroke="transparent" points="36.5,-666 36.5,-684 198.5,-684 198.5,-666 36.5,-666"></polygon>
+<polygon fill="none" stroke="white" points="36.5,-666 36.5,-684 198.5,-684 198.5,-666 36.5,-666"></polygon>
+<text text-anchor="start" x="39.32" y="-672" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;action_name NVARCHAR(200)</text>
+</g>
+<!-- operation_log -->
+<g id="node12" class="node" style="opacity: 1;">
+<title>operation_log</title>
+<polygon fill="#232d95" stroke="transparent" points="0.5,-630 0.5,-648 235.5,-648 235.5,-630 0.5,-630"></polygon>
+<polygon fill="none" stroke="white" points="0.5,-630 0.5,-648 235.5,-648 235.5,-630 0.5,-630"></polygon>
+<text text-anchor="start" x="3.5" y="-637" font-family="opensans" font-weight="bold" font-size="10.00" fill="white">operation_log</text>
+<polygon fill="#404040" stroke="transparent" points="0.5,-612 0.5,-630 235.5,-630 235.5,-612 0.5,-612"></polygon>
+<polygon fill="none" stroke="white" points="0.5,-612 0.5,-630 235.5,-630 235.5,-612 0.5,-612"></polygon>
+<text text-anchor="start" x="3.5" y="-619" font-family="opensans" font-size="10.00" fill="#e2c044">PK </text>
+<text text-anchor="start" x="18.78" y="-619" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="25.78" y="-619" font-family="opensans" font-size="10.00" fill="white"> id INT IDENTITY(1, 1</text>
+<polygon fill="#404040" stroke="transparent" points="0.5,-594 0.5,-612 235.5,-612 235.5,-594 0.5,-594"></polygon>
+<polygon fill="none" stroke="white" points="0.5,-594 0.5,-612 235.5,-612 235.5,-594 0.5,-594"></polygon>
+<text text-anchor="start" x="3.5" y="-601" font-family="opensans" font-size="10.00" fill="#e2c044">FK </text>
+<text text-anchor="start" x="18.78" y="-601" font-family="opensans" font-size="10.00"> | </text>
+<text text-anchor="start" x="25.78" y="-601" font-family="opensans" font-size="10.00" fill="white"> user_id INT</text>
+<polygon fill="#404040" stroke="transparent" points="0.5,-576 0.5,-594 235.5,-594 235.5,-576 0.5,-576"></polygon>
+<polygon fill="none" stroke="white" points="0.5,-576 0.5,-594 235.5,-594 235.5,-576 0.5,-576"></polygon>
+<text text-anchor="start" x="3.5" y="-582" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;table_name NVARCHAR(200)</text>
+<polygon fill="#404040" stroke="transparent" points="0.5,-558 0.5,-576 235.5,-576 235.5,-558 0.5,-558"></polygon>
+<polygon fill="none" stroke="white" points="0.5,-558 0.5,-576 235.5,-576 235.5,-558 0.5,-558"></polygon>
+<text text-anchor="start" x="3.45" y="-564" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;action_time DATETIME DEFAULT GETDATE()</text>
+<polygon fill="#404040" stroke="transparent" points="0.5,-540 0.5,-558 235.5,-558 235.5,-540 0.5,-540"></polygon>
+<polygon fill="none" stroke="white" points="0.5,-540 0.5,-558 235.5,-558 235.5,-540 0.5,-540"></polygon>
+<text text-anchor="start" x="3.5" y="-546" font-family="opensans" font-size="10.00" fill="white"> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;additional_info NVARCHAR(MAX)</text>
+</g>
+<!-- operation_log&#45;&gt;users -->
+<g id="edge12" class="edge" style="opacity: 1;">
+<title>operation_log:user_id-&gt;users:id</title>
+<path fill="none" stroke="#5ea54a" d="M235,-603C253.22,-603 260.12,-603 274.45,-603"></path>
+<polygon fill="#5ea54a" stroke="#5ea54a" points="274.5,-606.5 284.5,-603 274.5,-599.5 274.5,-606.5"></polygon>
+</g>
+</g>
+</svg>
