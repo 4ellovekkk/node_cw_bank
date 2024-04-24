@@ -97,6 +97,7 @@ CREATE TABLE operation_log (
 GO
 ;
 
+-------------------------------------------------------cascade triggers-------------------------------------------------------
 CREATE TRIGGER trg_currency_convertion_delete ON currency
 AFTER
     DELETE AS BEGIN
@@ -250,3 +251,6 @@ WHERE
     accounts.currency = inserted.id;
 
 END;
+
+GO
+    -----------------------------------------------------log table triggers--------------------------------------------------------------------
