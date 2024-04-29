@@ -2,7 +2,6 @@ use master;
 
 go
     create database bank_cw;
-
 go
 ;
 

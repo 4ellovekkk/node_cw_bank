@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,4 +5,116 @@ generator client {
 datasource db {
   provider = "sqlserver"
   url      = env("DATABASE_URL")
+}
+
+model account_types {
+  id         Int        @id(map: "PK__account___3213E83F2CF43568") @default(autoincrement())
+  type_name  String?    @db.NVarChar(200)
+  owner_type Int?
+  role       role?      @relation(fields: [owner_type], references: [id], onDelete: Cascade, map: "FK__account_t__owner__3C69FB99")
+  accounts   accounts[]
+}
+
+model accounts {
+  id                                   Int             @id(map: "PK__accounts__3213E83F9A5EF9A3") @default(autoincrement())
+  owner_id                             Int?
+  account_type                         Int?
+  balance                              Float?          @db.Money
+  currency                             Int?
+  is_locked                            Boolean?
+  account_types                        account_types?  @relation(fields: [account_type], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__accounts__accoun__45F365D3")
+  currency_accounts_currencyTocurrency currency?       @relation("accounts_currencyTocurrency", fields: [currency], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__accounts__curren__46E78A0C")
+  users                                users?          @relation(fields: [owner_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__accounts__owner___44FF419A")
+  operation_log                        operation_log[]
+}
+
+model action_types {
+  id          Int     @id(map: "PK__action_t__3213E83F663DA6FB") @default(autoincrement())
+  action_name String? @db.NVarChar(200)
+}
+
+model credit_conditions {
+  id                                            Int           @id(map: "PK__credit_c__3213E83F6D246337") @default(autoincrement())
+  credit_name                                   String?       @db.NVarChar(200)
+  credit_type                                   Int?
+  percentage_per_year                           Float?
+  max_sum                                       Float?        @db.Money
+  currency                                      Int?
+  credit_types                                  credit_types? @relation(fields: [credit_type], references: [id], onDelete: Cascade, map: "FK__credit_co__credi__4BAC3F29")
+  currency_credit_conditions_currencyTocurrency currency?     @relation("credit_conditions_currencyTocurrency", fields: [currency], references: [id], onDelete: Cascade, map: "FK__credit_co__curre__4CA06362")
+}
+
+model credit_types {
+  id                Int                 @id(map: "PK__credit_t__3213E83F9770D8BB") @default(autoincrement())
+  credit_type_name  String?             @db.NVarChar(200)
+  credit_conditions credit_conditions[]
+}
+
+model currency {
+  id                                                          Int                   @id(map: "PK__currency__3213E83FF8B515D0") @default(autoincrement())
+  currecy_name                                                String?               @db.NVarChar(200)
+  currency_short_name                                         String?               @db.NVarChar(3)
+  accounts_accounts_currencyTocurrency                        accounts[]            @relation("accounts_currencyTocurrency")
+  credit_conditions_credit_conditions_currencyTocurrency      credit_conditions[]   @relation("credit_conditions_currencyTocurrency")
+  currency_convertion_currency_convertion_currency2Tocurrency currency_convertion[] @relation("currency_convertion_currency2Tocurrency")
+  currency_convertion_currency_convertion_currncy1Tocurrency  currency_convertion[] @relation("currency_convertion_currncy1Tocurrency")
+  deposit_conditioins_deposit_conditioins_currencyTocurrency  deposit_conditioins[] @relation("deposit_conditioins_currencyTocurrency")
+}
+
+model currency_convertion {
+  pair_id                                          Int       @id(map: "PK__currency__97BA35D9017E1F48") @default(autoincrement())
+  currncy1                                         Int?
+  currency2                                        Int?
+  ratio                                            Float?
+  currency_currency_convertion_currency2Tocurrency currency? @relation("currency_convertion_currency2Tocurrency", fields: [currency2], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__currency___curre__4222D4EF")
+  currency_currency_convertion_currncy1Tocurrency  currency? @relation("currency_convertion_currncy1Tocurrency", fields: [currncy1], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__currency___currn__412EB0B6")
+}
+
+model deposit_conditioins {
+  id                                              Int            @id(map: "PK__deposit___3213E83F13DA45E9") @default(autoincrement())
+  deposit_condition_name                          String?        @db.NVarChar(200)
+  deposit_type                                    Int?
+  percentage_per_year                             Float?
+  currency                                        Int?
+  currency_deposit_conditioins_currencyTocurrency currency?      @relation("deposit_conditioins_currencyTocurrency", fields: [currency], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__deposit_c__curre__52593CB8")
+  deposit_types                                   deposit_types? @relation(fields: [deposit_type], references: [id], onDelete: Cascade, map: "FK__deposit_c__depos__5165187F")
+}
+
+model deposit_types {
+  id                  Int                   @id(map: "PK__deposit___3213E83F9B637F0F") @default(autoincrement())
+  deposit_type_name   String?               @db.NVarChar(200)
+  deposit_conditioins deposit_conditioins[]
+}
+
+model operation_log {
+  id              Int       @id(map: "PK__operatio__3213E83F6BDFC5E6") @default(autoincrement())
+  user_id         Int?
+  account_id      Int?
+  table_name      String?   @db.NVarChar(200)
+  action_time     DateTime? @default(now(), map: "DF__operation__actio__59063A47") @db.DateTime
+  additional_info String?   @db.NVarChar(Max)
+  accounts        accounts? @relation(fields: [account_id], references: [id], onDelete: NoAction, map: "FK__operation__accou__5812160E")
+  users           users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, map: "FK__operation__user___571DF1D5")
+}
+
+model role {
+  id               Int             @id(map: "PK__role__3213E83FC3DB53E1") @default(autoincrement())
+  role_name        String?         @db.NVarChar(200)
+  role_privs_level Int?
+  account_types    account_types[]
+  users            users[]
+}
+
+model users {
+  id            Int             @id(map: "PK__users__3213E83FD0197FA7") @default(autoincrement())
+  first_name    String?         @db.NVarChar(200)
+  midle_name    String?         @db.NVarChar(200)
+  last_name     String?         @db.NVarChar(200)
+  phone         String?         @db.NChar(15)
+  user_role     Int?
+  username      String?         @db.VarChar(200)
+  passwd        String?         @db.VarChar(255)
+  accounts      accounts[]
+  operation_log operation_log[]
+  role          role?           @relation(fields: [user_role], references: [id], onDelete: Cascade, map: "FK__users__user_role__398D8EEE")
 }
