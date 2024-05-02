@@ -1,0 +1,52 @@
+<!-- views/register.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+<body>
+    <h1>Register</h1>
+    <form action="/auth/register" method="POST">
+        <input type="text" name="username" placeholder="Username" required><br>
+        <input type="password" name="password" placeholder="Password" required><br>
+        <select name="role" required>
+            <option value="administrator">Administrator</option>
+            <option value="worker">Worker</option>
+            <option value="client">Client</option>
+        </select><br>
+        <button type="submit">Register</button>
+    </form>
+</body>
+
+<script>
+    document.getElementsByTagName('form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Предотвращаем стандартное действие формы
+    
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('password').value;
+        var role = document.getElementById('role').value;
+    
+        var formData = {
+            username: username,
+            password: password,
+            role: role
+        };
+    
+        // Отправляем данные на сервер
+        fetch('/auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+       .then(response => response.json())
+       .then(data => console.log(data))
+       .catch((error) => console.error('Error:', error));
+    });
+    </script>
+
+</html>
