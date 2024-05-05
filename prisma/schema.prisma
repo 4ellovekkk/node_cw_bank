@@ -112,7 +112,7 @@ model users {
   last_name     String?         @db.NVarChar(200)
   phone         String?         @db.NChar(15)
   user_role     Int?
-  username      String?         @db.VarChar(200)
+  username      String?         @unique(map: "UQ__users__F3DBC57208A65445") @db.VarChar(200)
   passwd        String?         @db.VarChar(255)
   accounts      accounts[]
   operation_log operation_log[]
