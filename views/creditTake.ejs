@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Credit Conditions</title>
+		<style>
+			table {
+				border-collapse: collapse;
+				width: 100%;
+			}
+			th,
+			td {
+				border: 1px solid black;
+				padding: 8px;
+				text-align: left;
+			}
+			th {
+				background-color: #f2f2f2;
+			}
+			tr:nth-child(even) {
+				background-color: #f2f2f2;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Credit Conditions</h1>
+		<table>
+			<thead>
+				<tr>
+					<th>Credit Name</th>
+					<th>Credit Type Name</th>
+					<th>Max Sum</th>
+					<th>Currency</th>
+					<th>Paydate</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% creditConditions.forEach((credit) => { %>
+				<tr>
+					<td><%= credit.credit_name %></td>
+					<td><%= credit.credit_types.credit_type_name %></td>
+					<td><%= credit.max_sum %></td>
+					<td><%= credit.currency %></td>
+					<td><%= credit.paydate %></td>
+					<td><button>Take</button></td>
+				</tr>
+				<% }); %>
+			</tbody>
+		</table>
+	</body>
+</html>

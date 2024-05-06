@@ -1,6 +1,8 @@
 const express = require("express");
-const authRoutes = require("./authRoutes");
-const userRouter = require('./userRoutes'); // Путь к файлу с роутером
+const authRoutes = require("./routes/authRoutes");
+const userRouter = require("./routes/userRoutes"); // Путь к файлу с роутером
+const accountRoutes = require("./routes/accountRoutes");
+const creditRoutes = require("./routes/creditRoutes");
 const path = require("path");
 const app = express();
 
@@ -17,7 +19,9 @@ app.get("/login", (req, res) => {
 	res.render("login");
 });
 app.use("/auth", authRoutes);
-app.use('/users', userRouter);
+app.use("/users", userRouter);
+app.use("/account", accountRoutes);
+app.use("/credit", creditRoutes);
 
 // Конфигурация прослушивания порта
 const PORT = process.env.PORT || 3000;

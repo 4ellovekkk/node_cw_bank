@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Account creation</title>
+	</head>
+	<body>
+		<form id="create_account" method="POST" action="/account/account-creation">
+			<label for="input">Account name</label>
+			<input type="text" id="Account name" />
+			<select name="Account_type" id="Account_type" required>
+				<% accountTypes.forEach((accountType) => { %>
+				<option value="<%= accountType.id %>">
+					<%= accountType.type_name %>
+				</option>
+				<% }); %>
+			</select>
+			<select name="Currency" id="Currency" required>
+				<% currencies.forEach((currency) => { %>
+				<option value="<%= currency.id %>">
+					<%= currency.currency_short_name %>
+				</option>
+				<% }); %>
+			</select>
+			<button type="submit">Create</button>
+		</form>
+		<script>
+			document
+				.getElementById("create_account")
+				.addEventListener("submit", function (event) {
+					event.preventDefault();
+					var type = parseInt(document.getElementById("Account_type").value);
+					var curr = parseFloat(document.getElementById("Currency").value);
+
+					var formData = {
+						account_type: type,
+						currency: curr,
+					};
+					fetch("/account/account-creation", {
+						method: "POST",
+						headers: { "Content-type": "application/json" },
+						body: JSON.stringify(formData),
+					})
+						.then((response) => response.json())
+						.then((data) => console.log(data))
+						.catch((error) => console.log("Error:", error));
+				});
+		</script>
+	</body>
+</html>

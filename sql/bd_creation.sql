@@ -2,6 +2,7 @@ use master;
 
 go
     create database bank_cw;
+
 go
 ;
 
@@ -253,3 +254,12 @@ END;
 
 GO
     -----------------------------------------------------log table triggers--------------------------------------------------------------------
+    use bank_cw
+alter table
+    users
+add
+    unique(username)
+alter table
+    credit_conditions
+add
+    paydate NVARCHAR(7)
