@@ -3,6 +3,7 @@ const authRoutes = require("./routes/authRoutes");
 const userRouter = require("./routes/userRoutes"); // Путь к файлу с роутером
 const accountRoutes = require("./routes/accountRoutes");
 const creditRoutes = require("./routes/creditRoutes");
+const depositRoutes = require("./routes/depositRoutes");
 const path = require("path");
 const app = express();
 const cookieParser = require("cookie-parser");
@@ -17,6 +18,7 @@ app.use("/auth", authRoutes);
 app.use("/users", userRouter);
 app.use("/account", accountRoutes);
 app.use("/credit", creditRoutes);
+app.use("/deposit", depositRoutes);
 
 // Конфигурация прослушивания порта
 const PORT = process.env.PORT || 3000;

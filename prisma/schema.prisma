@@ -35,7 +35,7 @@ model action_types {
 
 model credit_conditions {
   id                                            Int           @id(map: "PK__credit_c__3213E83F6D246337") @default(autoincrement())
-  credit_name                                   String?       @db.NVarChar(200)
+  credit_name                                   String?       @unique(map: "UQ__credit_c__E2D7E624B7F9B46A") @db.NVarChar(200)
   credit_type                                   Int?
   percentage_per_year                           Float?
   max_sum                                       Float?        @db.Money

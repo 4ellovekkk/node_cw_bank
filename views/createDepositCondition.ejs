@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Credit Conditions</title>
+		<title>Deposit Conditions</title>
 		<style>
 			table {
 				border-collapse: collapse;
@@ -24,26 +24,24 @@
 		</style>
 	</head>
 	<body>
-		<h1>Credit Conditions</h1>
+		<h1>Deposit Conditions</h1>
 		<table>
 			<thead>
 				<tr>
-					<th>Credit Name</th>
-					<th>Credit Type Name</th>
-					<th>Max Sum</th>
+					<th>Deposit Name</th>
+					<th>Deposit Type Name</th>
+					<th>Percentage Per Year</th>
 					<th>Currency</th>
-					<th>Paydate</th>
 					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody>
-				<% creditConditions.forEach((credit) => { %>
+				<% depositConditions.forEach((deposit) => { %>
 				<tr>
-					<td><%= credit.credit_name %></td>
-					<td><%= credit.credit_types.credit_type_name %></td>
-					<td><%= credit.max_sum %></td>
-					<td><%= credit.currency %></td>
-					<td><%= credit.paydate %></td>
+					<td><%= deposit.deposit_condition_name %></td>
+					<td><%= deposit.deposit_types.deposit_type_name %></td>
+					<td><%= deposit.percentage_per_year %></td>
+					<td><%= deposit.currency %></td>
 					<td><button>Take</button></td>
 				</tr>
 				<% }); %>
@@ -51,14 +49,14 @@
 		</table>
 		<script>
 			// Функция для отправки данных на сервер
-			async function sendData(creditData) {
+			async function sendData(depositData) {
 				try {
-					const response = await fetch("/credit/take-credit", {
+					const response = await fetch("/deposit/take-deposit", {
 						method: "POST",
 						headers: {
 							"Content-Type": "application/json",
 						},
-						body: JSON.stringify(creditData),
+						body: JSON.stringify(depositData),
 					});
 
 					const responseData = await response.json();
@@ -79,23 +77,21 @@
 					const row = button.closest("tr");
 
 					// Получаем данные из ячеек строки таблицы
-					const creditName = row.cells[0].textContent;
-					const creditTypeName = row.cells[1].textContent;
-					const maxSum = row.cells[2].textContent;
+					const depositName = row.cells[0].textContent;
+					const depositTypeName = row.cells[1].textContent;
+					const percentagePerYear = row.cells[2].textContent;
 					const currency = row.cells[3].textContent;
-					const paydate = row.cells[4].textContent;
 
 					// Формируем объект с данными
-					const creditData = {
-						creditName,
-						creditTypeName,
-						maxSum,
+					const depositData = {
+						depositName,
+						depositTypeName,
+						percentagePerYear,
 						currency,
-						paydate,
 					};
 
 					// Отправляем данные на сервер
-					await sendData(creditData);
+					await sendData(depositData);
 				});
 			});
 		</script>
