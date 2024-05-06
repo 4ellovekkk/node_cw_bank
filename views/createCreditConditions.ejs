@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Create Credit Conditions</title>
+	</head>
+	<body>
+		<h1>Create Credit Conditions</h1>
+		<form
+			action="/credit/addCreditConditions"
+			method="post"
+			id="creditConditionForm"
+		>
+			<label for="creditName">Credit Name:</label>
+			<input
+				type="text"
+				id="creditName"
+				name="creditName"
+				required
+			/><br /><br />
+
+			<label for="creditType">Credit Type:</label>
+			<select id="creditType" name="creditType" required>
+				<% credit_types.forEach(creditType => { %>
+				<option value="<%= creditType.id %>">
+					<%= creditType.credit_type_name %>
+				</option>
+				<% }) %></select
+			><br /><br />
+
+			<label for="percentagePerYear">Percentage per year:</label>
+			<input
+				type="number"
+				id="percentagePerYear"
+				name="percentagePerYear"
+				required
+			/><br /><br />
+
+			<label for="maxSum">Max Sum:</label>
+			<input type="number" id="maxSum" name="maxSum" required /><br /><br />
+
+			<label for="currency">Currency:</label>
+			<select id="currency" name="currency" required>
+				<% currencies.forEach(currency => { %>
+				<option value="<%= currency.id %>">
+					<%= currency.currecy_name %> (<%= currency.currency_short_name %>)
+				</option>
+				<% }) %></select
+			><br /><br />
+
+			<label for="paydate">Paydate:</label>
+			<input type="text" id="paydate" name="paydate" required /><br /><br />
+
+			<button type="submit">Create Credit Conditions</button>
+		</form>
+
+		<script>
+			document
+				.getElementById("creditConditionForm")
+				.addEventListener("submit", function (event) {
+					event.preventDefault();
+
+					var userData = {
+						creditName: document.getElementById("creditName").value,
+						creditType: document.getElementById("creditType").value,
+						percentagePerYear:
+							document.getElementById("percentagePerYear").value,
+						maxSum: document.getElementById("maxSum").value,
+						currency: document.getElementById("currency").value,
+						paydate: document.getElementById("paydate").value,
+					};
+
+					fetch("/credit/addCreditConditions", {
+						method: "POST",
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify(userData),
+					})
+						.then((response) => response.json())
+						.then((data) => {
+							alert(data.message || data.error);
+						})
+						.catch((error) => console.log("Error: ", error));
+				});
+		</script>
+	</body>
+</html>

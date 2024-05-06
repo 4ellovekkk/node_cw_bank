@@ -4,6 +4,37 @@ const bcrypt = require("bcryptjs");
 const prisma = new PrismaClient();
 const router = express.Router();
 
+async function getUserRoleFromToken(token) {
+	try {
+		// Верификация токена
+		const decodedToken = jwt.verify(token, "secret_key");
+		const username = decodedToken.username;
+
+		// Поиск пользователя в базе данных
+		const user = await prisma.users.findUnique({
+			where: {
+				username: username,
+			},
+			include: {
+				role: true, // Включаем связанную сущность "role"
+			},
+		});
+
+		// Проверка наличия пользователя в базе данных
+		if (!user) {
+			return null; // Пользователь не найден
+		}
+
+		// Получение роли пользователя
+		const userRole = user.role.id;
+
+		return userRole; // Возвращаем роль пользователя
+	} catch (error) {
+		console.error("Ошибка при получении роли пользователя из токена:", error);
+		return null; // Возвращаем null в случае ошибки
+	}
+}
+
 // GET запрос для отображения страницы изменения информации о пользователе
 router.get("/edit-user/:id", async (req, res) => {
 	let id = req.params.id;
@@ -69,10 +100,13 @@ router.put("/:id/edit", async (req, res) => {
 router.delete("/delete-user/:id", async (req, res) => {
 	try {
 		const { id } = req.params;
-		const { username, role } = req.body;
+		const { token } = req.cookies;
+
+		// Получение роли пользователя из токена
+		const userRole = await getUserRoleFromToken(token);
 
 		// Проверка роли пользователя
-		if (role !== "Administrator") {
+		if (userRole !== 1) {
 			return res
 				.status(403)
 				.json({ error: "You do not have permission to perform this action" });
@@ -81,7 +115,7 @@ router.delete("/delete-user/:id", async (req, res) => {
 		// Удаление пользователя из базы данных
 		const deletedUser = await prisma.users.delete({
 			where: {
-				OR: [{ id: parseInt(id) }, { username }],
+				id: parseInt(id),
 			},
 		});
 

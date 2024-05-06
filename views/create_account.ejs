@@ -22,6 +22,8 @@
 				</option>
 				<% }); %>
 			</select>
+			<label for="input">Owner id</label>
+			<input type="text" id="owner" />
 			<button type="submit">Create</button>
 		</form>
 		<script>
@@ -35,6 +37,7 @@
 					var formData = {
 						account_type: type,
 						currency: curr,
+						owner:owner,
 					};
 					fetch("/account/account-creation", {
 						method: "POST",

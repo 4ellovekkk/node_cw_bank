@@ -1,98 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Edit User</title>
-</head>
-<body>
-    <h2>Edit User</h2>
-    <form id="editUserForm" action="/edit-user/<%= userId %>" method="post">
-        <label for="first_name">First Name:</label>
-        <input type="text" id="first_name" name="first_name" required><br>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Edit User</title>
+	</head>
+	<body>
+		<h2>Edit User</h2>
+		<form id="editUserForm" action="/edit-user/<%= userId %>" method="post">
+			<label for="first_name">First Name:</label>
+			<input type="text" id="first_name" name="first_name" required /><br />
 
-        <label for="midle_name">Middle Name:</label>
-        <input type="text" id="midle_name" name="midle_name"><br>
+			<label for="midle_name">Middle Name:</label>
+			<input type="text" id="midle_name" name="midle_name" /><br />
 
-        <label for="last_name">Last Name:</label>
-        <input type="text" id="last_name" name="last_name"><br>
+			<label for="last_name">Last Name:</label>
+			<input type="text" id="last_name" name="last_name" /><br />
 
-        <label for="phone">Phone:</label>
-        <input type="tel" id="phone" name="phone"><br>
+			<label for="phone">Phone:</label>
+			<input type="tel" id="phone" name="phone" /><br />
 
-        <label for="passwd">Password:</label>
-        <input type="password" id="passwd" name="passwd"><br>
+			<label for="passwd">Password:</label>
+			<input type="password" id="passwd" name="passwd" /><br />
 
-        <button type="submit">Update</button>
-    </form>
-    <script>
-        // Регулярные выражения для валидации
-        const nameRegex = /^[a-zA-Z\s]+$/; // Проверяет, что имя состоит только из букв и пробелов
-        const phoneRegex = /^\+\d{12}$/; // Проверяет, что телефон состоит из 12 цифр
+			<button type="submit">Update</button>
+		</form>
+		<script>
+			// Регулярные выражения для валидации
+			const nameRegex = /^[a-zA-Z\s]+$/; // Проверяет, что имя состоит только из букв и пробелов
+			const phoneRegex = /^\+\d{12}$/; // Проверяет, что телефон состоит из 12 цифр
 
-        document.getElementById('editUserForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Предотвращаем стандартное действие формы
-    
-    // Получаем значения полей формы
-    var firstName = document.getElementById('first_name').value;
-    var middleName = document.getElementById('midle_name').value;
-    var lastName = document.getElementById('last_name').value;
-    var phone = document.getElementById('phone').value;
-    var password = document.getElementById('passwd').value;
-    var parts = document.URL.split("/");
-    userId = parts[parts.length - 1];
+			document
+				.getElementById("editUserForm")
+				.addEventListener("submit", function (event) {
+					event.preventDefault(); // Предотвращаем стандартное действие формы
 
-    function validateForm(firstname, lastname, middlename, phone) {
-        // Валидация имени
-        if (!nameRegex.test(firstname)) {
-            alert("Invalid firstname");
-            return false;
-        }
-        if (!nameRegex.test(lastname)) {
-            alert("Invalid lastname");
-            return false;
-        }
-        if (!nameRegex.test(middlename)) {
-            alert("Invalid middlename");
-            return false;
-        }
+					// Получаем значения полей формы
+					var firstName = document.getElementById("first_name").value;
+					var middleName = document.getElementById("midle_name").value;
+					var lastName = document.getElementById("last_name").value;
+					var phone = document.getElementById("phone").value;
+					var password = document.getElementById("passwd").value;
+					var parts = document.URL.split("/");
+					userId = parts[parts.length - 1];
 
-        // Валидация телефона
-        if (!phoneRegex.test(phone)) {
-            console.log("Invalid phone number");
-            return false;
-        }
+					function validateForm(firstname, lastname, middlename, phone) {
+						// Валидация имени
+						if (!nameRegex.test(firstname)) {
+							alert("Invalid firstname");
+							return false;
+						}
+						if (!nameRegex.test(lastname)) {
+							alert("Invalid lastname");
+							return false;
+						}
+						if (!nameRegex.test(middlename)) {
+							alert("Invalid middlename");
+							return false;
+						}
 
-        return true;
-    }
+						// Валидация телефона
+						if (!phoneRegex.test(phone)) {
+							console.log("Invalid phone number");
+							return false;
+						}
 
-    if (validateForm(firstName, lastName, middleName, phone)) {
-        // Формируем объект с данными для отправки
-        const userData = {
-            first_name: firstName,
-            midle_name: middleName,
-            last_name: lastName,
-            phone: phone,
-            passwd: password // Добавляем поле passwd только если password не пустое
-        };
+						return true;
+					}
 
-        // Отправляем данные на сервер
-        fetch(`/users/${userId}/edit`, {
-            method: 'PUT', // Используем PUT, если ваш сервер поддерживает его для форм
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(userData)
-        })
-       .then(response => response.json())
-       .then(data => {
-            // Обработка ответа от сервера
-            alert(data.message || data.error); // Показываем сообщение или ошибку
-            // Здесь можно добавить логику для обновления интерфейса после успешного обновления данных
-        })
-       .catch(error => console.error('Error:', error));
-    }
-});
+					if (validateForm(firstName, lastName, middleName, phone)) {
+						// Формируем объект с данными для отправки
+						const userData = {
+							first_name: firstName,
+							midle_name: middleName,
+							last_name: lastName,
+							phone: phone,
+							passwd: password, // Добавляем поле passwd только если password не пустое
+						};
 
-    </script>
-</body>
+						// Отправляем данные на сервер
+						fetch(`/users/${userId}/edit`, {
+							method: "PUT", // Используем PUT, если ваш сервер поддерживает его для форм
+							headers: {
+								"Content-Type": "application/json",
+							},
+							body: JSON.stringify(userData),
+						})
+							.then((response) => response.json())
+							.then((data) => {
+								// Обработка ответа от сервера
+								alert(data.message || data.error); // Показываем сообщение или ошибку
+								// Здесь можно добавить логику для обновления интерфейса после успешного обновления данных
+							})
+							.catch((error) => console.error("Error:", error));
+					}
+				});
+		</script>
+	</body>
 </html>
