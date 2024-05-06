@@ -6,37 +6,49 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const router = express.Router();
 
-router.get("/account-creation", async (req, res) => {
-	try {
-		const accountTypes = await prisma.account_types.findMany();
-		const currencies = await prisma.currency.findMany();
+// Middleware для проверки JWT токена и роли пользователя
+function authenticateAndCheckAdmin(req, res, next) {
+	const authHeader = req.headers["authorization"];
+	const token = authHeader && authHeader.split(" ")[1];
+	if (token == null) return res.sendStatus(401);
 
-		res.render("create_account.ejs", { accountTypes, currencies });
-	} catch (error) {
-		console.error(error);
-		res.status(500).send("Error retrieving data from the database");
-	}
-});
-router.post("/account-creation", async (req, res) => {
-	try {
-		const { account_type, currency } = req.body;
+	jwt.verify(token, "secret_key", async (err, user) => {
+		if (err) return res.sendStatus(403);
+		if (user.role !== "admin")
+			return res.status(403).json({ error: "Insufficient permissions" });
 
-		// Создание счета в базе данных
-		const newAccount = await prisma.accounts.create({
-			data: {
-				account_type: parseInt(account_type),
-				currency: parseInt(currency),
-				is_locked: false,
-				balance: 0,
-
-				// Другие поля счета, которые нужно заполнить
-			},
+		// Проверка роли пользователя в базе данных
+		const foundUser = await prisma.users.findUnique({
+			where: { username: user.username },
 		});
+		if (!foundUser || foundUser.role !== "admin") {
+			return res.status(403).json({ error: "Insufficient permissions" });
+		}
 
-		res.json({ message: "Account created successfully", account: newAccount });
+		req.user = user;
+		next();
+	});
+}
+
+// GET запрос для отображения страницы регистрации
+router.get("/register", authenticateAndCheckAdmin, async (req, res) => {
+	try {
+		// Ваш код для отображения страницы регистрации
+		res.render("register.ejs");
 	} catch (error) {
 		console.error(error);
-		res.status(500).json({ error: "Error creating account" });
+		res.status(500).send("Error retrieving registration page");
 	}
 });
+
+// POST запрос для обработки регистрации
+router.post("/register", async (req, res) => {
+	try {
+		// Ваш код для обработки регистрации
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ error: "Error registering user" });
+	}
+});
+
 module.exports = router;
