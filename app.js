@@ -5,19 +5,14 @@ const accountRoutes = require("./routes/accountRoutes");
 const creditRoutes = require("./routes/creditRoutes");
 const path = require("path");
 const app = express();
-
+const cookieParser = require("cookie-parser");
+//MIDDLEWARE
+app.use(cookieParser());
 app.use(express.json());
 app.set("view engine", "ejs");
 app.engine("ejs", require("ejs").__express);
 app.set("views", path.join(__dirname, "views"));
-// GET запрос для отображения страницы регистрации
-app.get("/register", (req, res) => {
-	res.render("register");
-});
-// GET запрос для отображения страницы входа
-app.get("/login", (req, res) => {
-	res.render("login");
-});
+// ROUTES
 app.use("/auth", authRoutes);
 app.use("/users", userRouter);
 app.use("/account", accountRoutes);

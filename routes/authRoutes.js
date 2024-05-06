@@ -6,7 +6,61 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const router = express.Router();
 
-// Регистрация пользователя
+// Middleware для проверки JWT токена и роли пользователя
+async function getUserRoleFromToken(token) {
+	try {
+		// Верификация токена
+		const decodedToken = jwt.verify(token, "secret_key");
+		const username = decodedToken.username;
+
+		// Поиск пользователя в базе данных
+		const user = await prisma.users.findUnique({
+			where: {
+				username: username,
+			},
+			include: {
+				role: true, // Включаем связанную сущность "role"
+			},
+		});
+
+		// Проверка наличия пользователя в базе данных
+		if (!user) {
+			return null; // Пользователь не найден
+		}
+
+		// Получение роли пользователя
+		const userRole = user.role.id;
+
+		return userRole; // Возвращаем роль пользователя
+	} catch (error) {
+		console.error("Ошибка при получении роли пользователя из токена:", error);
+		return null; // Возвращаем null в случае ошибки
+	}
+}
+
+// GET запрос для отображения страницы регистрации
+router.get("/register", async (req, res) => {
+	try {
+		token = req.cookies.token;
+		if ((await getUserRoleFromToken(token)) != parseInt(1)) {
+			return res.status(403).json({ message: "Insufficient priveleges" });
+		}
+
+		jwt.verify(token, "secret_key");
+	} catch (error) {
+		if (error.name === "TokenExpiredError") {
+			return res.status(401).json({ message: "token expired" });
+		} else if (error.name === "JsonWebTokenError") {
+			return res.status(401).json({ message: "Invalid token" });
+		} else {
+			return res.status(500).json({ message: "Verification error" });
+		}
+	}
+	// Получение информации о пользователе из запроса
+	res.render("register.ejs");
+});
+
+// POST запрос для обработки регистрации
 router.post("/register", async (req, res) => {
 	try {
 		let { username, password, role } = req.body;
@@ -61,7 +115,10 @@ router.post("/register", async (req, res) => {
 	}
 });
 
-// Вход пользователя
+router.get("/login", (req, res) => {
+	res.render("login");
+});
+
 router.post("/login", async (req, res) => {
 	try {
 		const { username, password } = req.body;
@@ -84,36 +141,26 @@ router.post("/login", async (req, res) => {
 		}
 
 		// Создание JWT токена
-		const token = jwt.sign({ userId: user.id, role: user.role }, "secret_key", {
-			expiresIn: "24h",
-		});
+		const token = jwt.sign(
+			{ userId: user.id, role: user.role, username: user.username },
+			"secret_key",
+			{
+				expiresIn: "24h",
+			}
+		);
 
-		res.json({ message: "Login successful", token });
+		// Установка токена как cookie
+		res.cookie("token", token, { httpOnly: true, secure: true });
+
+		// Отправка ответа об успешном входе
+		res.json({ message: "Login successful" });
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: "Error logging in" });
 	}
 });
 
-// Мидлвар для проверки токена
-function authenticateToken(req, res, next) {
-	const authHeader = req.headers["authorization"];
-	const token = authHeader && authHeader.split(" ")[1];
-	if (token == null) return res.sendStatus(401);
-
-	jwt.verify(token, "secret_key", (err, user) => {
-		if (err) return res.sendStatus(403);
-		req.user = user;
-		next();
-	});
-}
-
-router.post("/logout", (req, res) => {
+router.get("/logout", (req, res) => {
 	res.clearCookie("token").json({ message: "Logout successful" });
 });
-// Пример защищенного маршрута
-router.get("/protected-route", authenticateToken, (req, res) => {
-	res.json({ message: "This is a protected route!" });
-});
-
 module.exports = router;
