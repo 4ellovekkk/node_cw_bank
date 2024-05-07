@@ -93,7 +93,7 @@ router.get("/add-deposit-condition", async (req, res) => {
 			return res.status(403).json({ message: "Insufficient privileges" });
 		}
 
-		const depositConditions = await prisma.deposit_conditions.findMany({
+		const depositConditions = await prisma.deposit_conditioins.findMany({
 			include: {
 				deposit_types: true,
 				currency: true,
@@ -124,7 +124,7 @@ router.post("/add-deposit-condition", async (req, res) => {
 			currencyDepositConditionCurrencyId,
 		} = req.body;
 
-		const newDepositCondition = await prisma.deposit_conditions.create({
+		const newDepositCondition = await prisma.deposit_conditioins.create({
 			data: {
 				deposit_condition_name: depositConditionName,
 				deposit_type: depositType,
@@ -158,7 +158,7 @@ router.delete("/delete-deposit-condition/:id", async (req, res) => {
 
 		const { id } = req.params;
 
-		const deletedDepositCondition = await prisma.deposit_conditions.delete({
+		const deletedDepositCondition = await prisma.deposit_conditioins.delete({
 			where: {
 				id: parseInt(id),
 			},

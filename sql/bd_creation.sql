@@ -91,7 +91,8 @@ CREATE TABLE operation_log (
     account_id int FOREIGN key REFERENCES accounts(id) on update cascade,
     table_name NVARCHAR(200),
     action_time DATETIME DEFAULT GETDATE(),
-    additional_info NVARCHAR(MAX)
+    additional_info NVARCHAR(MAX),
+    action_type int FOREIGN key REFERENCES action_typesa(id)
 );
 
 GO
