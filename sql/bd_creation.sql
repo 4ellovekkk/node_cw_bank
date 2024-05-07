@@ -263,3 +263,5 @@ alter table
     credit_conditions
 add
     paydate NVARCHAR(7)
+
+alter table deposit_conditioins add unique(deposit_condition_name);

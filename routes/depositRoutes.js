@@ -206,15 +206,22 @@ router.post("/take-deposit", async (req, res) => {
 		const userId = decodedToken.id;
 
 		// Получаем данные из тела запроса
-		const { depositConditionId } = await prisma.deposit_conditioins.findUnique({
-			where: { deposit_condition_name: req.body.depositConditionName },
+		const depositConditionName = req.body.depositConditionName;
+
+		if (!depositConditionName) {
+			return res
+				.status(400)
+				.json({ error: "Deposit condition name is required" });
+		}
+
+		const depositCondition = await prisma.deposit_conditioins.findUnique({
+			where: { deposit_condition_name: depositConditionName },
+			include: { deposit_types: true },
 		});
 
-		// Получаем информацию о условиях депозита
-		const depositCondition = await prisma.deposit_conditioins.findUnique({
-			where: { deposit_condition_name: req.body.depositConditionName },
-			include: { deposit_types: true }, // Включаем информацию о типе депозита
-		});
+		if (!depositCondition) {
+			return res.status(404).json({ error: "Deposit condition not found" });
+		}
 
 		if (!depositCondition) {
 			return res.status(404).json({ error: "Deposit condition not found" });
@@ -250,4 +257,5 @@ router.post("/take-deposit", async (req, res) => {
 		res.status(500).json({ error: "Internal server error" });
 	}
 });
+
 module.exports = router;

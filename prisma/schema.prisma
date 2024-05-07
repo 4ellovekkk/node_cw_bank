@@ -73,7 +73,7 @@ model currency_convertion {
 
 model deposit_conditioins {
   id                                              Int            @id(map: "PK__deposit___3213E83F13DA45E9") @default(autoincrement())
-  deposit_condition_name                          String?        @db.NVarChar(200)
+  deposit_condition_name                          String?        @unique(map: "UQ__deposit___E5474B9E340FE6D4") @db.NVarChar(200)
   deposit_type                                    Int?
   percentage_per_year                             Float?
   currency                                        Int?

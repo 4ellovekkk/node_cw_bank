@@ -102,7 +102,7 @@ router.post("/account-creation", async (req, res) => {
 router.delete("/account-deletion/:id", async (req, res) => {
 	try {
 		const { id } = req.params;
-		const role = getUserRoleFromToken(req.cookies.token);
+		const role = await getUserRoleFromToken(req.cookies.token);
 		// Проверка роли пользователя
 		if (role !== 1 && role !== 2) {
 			return res.status(403).json({ error: "Insufficient permissions" });
@@ -122,6 +122,71 @@ router.delete("/account-deletion/:id", async (req, res) => {
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: "Error deleting account" });
+	}
+});
+
+router.get("/transfer-money", async (req, res) => {
+	try {
+		const token = req.cookies.token;
+		if (!token) {
+			return res.status(401).json({ error: "Unauthorized" });
+		}
+		const userId = jwt.verify(token, "secret_key").id;
+		const accounts = await prisma.accounts.findMany({
+			where: { owner_id: userId },
+		});
+		res.render("transferMoney", { accounts });
+	} catch (error) {
+		console.error("JWT Verification Error:", error);
+		res.status(500).json({ error: "Internal server error" });
+	}
+});
+router.post("/transfer", async (req, res) => {
+	try {
+		const { fromAccountId, toAccountId, amount } = req.body;
+
+		// Check if both accounts are not locked
+		const fromAccount = await prisma.accounts.findUnique({
+			where: { id: fromAccountId },
+		});
+		const toAccount = await prisma.accounts.findUnique({
+			where: { id: toAccountId },
+		});
+
+		if (!fromAccount || !toAccount) {
+			return res.status(404).json({ error: "One or both accounts not found" });
+		}
+
+		if (fromAccount.is_locked || toAccount.is_locked) {
+			return res.status(403).json({ error: "One or both accounts are locked" });
+		}
+
+		// Check if the fromAccount has sufficient balance
+		if (fromAccount.balance < amount) {
+			return res
+				.status(400)
+				.json({ error: "Insufficient balance in the from account" });
+		}
+
+		// Perform the transfer
+		const updatedFromAccount = await prisma.accounts.update({
+			where: { id: fromAccountId },
+			data: { balance: { decrement: amount } },
+		});
+
+		const updatedToAccount = await prisma.accounts.update({
+			where: { id: toAccountId },
+			data: { balance: { increment: amount } },
+		});
+		
+		res.status(200).json({
+			message: "Money transferred successfully",
+			fromAccount: updatedFromAccount,
+			toAccount: updatedToAccount,
+		});
+	} catch (error) {
+		console.error("Error transferring money:", error);
+		res.status(500).json({ error: "Internal server error" });
 	}
 });
 
