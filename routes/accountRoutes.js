@@ -37,6 +37,17 @@ async function getUserRoleFromToken(token) {
 	}
 }
 
+async function getUserIdFromToken(token) {
+	try {
+		// Верификация токена
+		const decodedToken = jwt.verify(token, "secret_key");
+		return decodedToken.id; // Возвращаем id пользователя из токена
+	} catch (error) {
+		console.error("Ошибка при получении id пользователя из токена:", error);
+		return null; // Возвращаем null в случае ошибки
+	}
+}
+
 router.get("/account-creation", async (req, res) => {
 	try {
 		const token = req.headers.authorization.split(" ")[1]; // Получаем токен из заголовка запроса
@@ -125,20 +136,13 @@ router.get("/transfer-money", async (req, res) => {
 		if (!token) {
 			return res.status(401).json({ error: "Unauthorized" });
 		}
-		const userRole = await getUserRoleFromToken(token);
-
-		// Проверка роли пользователя
-		if (userRole !== 3) {
-			return res.status(403).json({ error: "Insufficient privileges" });
-		}
-
-		const userId = jwt.verify(token, "secret_key").id;
+		const userId = await getUserIdFromToken(token);
 		const accounts = await prisma.accounts.findMany({
 			where: { owner_id: userId },
 		});
 		res.render("transferMoney", { accounts });
 	} catch (error) {
-		console.error("JWT Verification Error:", error);
+		console.error("Error fetching accounts:", error);
 		res.status(500).json({ error: "Internal server error" });
 	}
 });

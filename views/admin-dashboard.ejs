@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Admin dashboard</title>
+		<script src="/socket.io/socket.io.js"></script>
+	</head>
+
+	<body>
+		<h1>Admin Page</h1>
+		<button id="notify-btn">Send Notification</button>
+		<script>
+			const socket = io();
+
+			socket.emit("register", "admin");
+
+			document.getElementById("notify-btn").addEventListener("click", () => {
+				const message = "Hello, this is a notification from admin!";
+				socket.emit("sendNotification", message);
+			});
+		</script>
+	</body>
+</html>

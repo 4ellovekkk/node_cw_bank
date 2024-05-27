@@ -37,5 +37,11 @@ async function getUserRoleFromToken(token) {
 		return null; // Возвращаем null в случае ошибки
 	}
 }
+router.get("/admin-dashboard", (req, res) => {
+	res.render("admin-dashboard");
+});
+router.get("/user-dashboard", (req, res) => {
+	res.render("user-dashboard");
+});
 
 module.exports = router;

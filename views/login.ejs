@@ -1,42 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-</head>
-<body>
-    <h1>Login</h1>
-    <form id="loginForm" action="/auth/login" method="POST">
-        <input type="text" name="username" id="username" placeholder="Username" required><br>
-        <input type="password" name="password" id="password" placeholder="Password" required><br>
-        <button type="submit">Login</button>
-    </form>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Login</title>
+	</head>
+	<body>
+		<h1>Login</h1>
+		<form id="loginForm">
+			<label for="username">Username:</label>
+			<input type="text" id="username" name="username" required />
+			<br /><br />
+			<label for="password">Password:</label>
+			<input type="password" id="password" name="password" required />
+			<br /><br />
+			<button type="submit">Login</button>
+		</form>
 
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Предотвращаем стандартное действие формы
-        
-            var username = document.getElementById('username').value;
-            var password = document.getElementById('password').value;
-        
-            var formData = {
-                username: username,
-                password: password
-            };
-        
-            // Отправляем данные на сервер
-            fetch('/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            })
-           .then(response => response.json())
-           .then(data => console.log(data))
-           .catch((error) => console.error('Error:', error));
-        });
-    </script>
-</body>
+		<script>
+			document
+				.getElementById("loginForm")
+				.addEventListener("submit", async function (event) {
+					event.preventDefault();
+
+					const formData = new FormData(this);
+					const loginData = {
+						username: formData.get("username"),
+						password: formData.get("password"),
+					};
+
+					try {
+						const response = await fetch("/auth/login", {
+							method: "POST",
+							headers: {
+								"Content-Type": "application/json",
+							},
+							body: JSON.stringify(loginData),
+						});
+
+						const responseData = await response.json();
+
+						if (response.ok) {
+							let redirectUrl;
+							if (responseData.role === 1) {
+								redirectUrl = "/dashboard/admin-dashboard";
+							} else if (responseData.role === 2) {
+								redirectUrl = "/dashboard/moderator-dashboard";
+							} else if (responseData.role === 3) {
+								redirectUrl = "/dashboard/user-dashboard";
+							}
+
+							// Перенаправление на соответствующую страницу
+							if (redirectUrl) {
+								window.location.href = redirectUrl;
+							} else {
+								alert("Invalid role");
+							}
+						} else {
+							alert(responseData.error);
+						}
+					} catch (error) {
+						console.error("Error:", error);
+						alert("An error occurred. Please try again later.");
+					}
+				});
+		</script>
+	</body>
 </html>
