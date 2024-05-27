@@ -4,12 +4,14 @@ const userRouter = require("./routes/userRoutes"); // Путь к файлу с 
 const accountRoutes = require("./routes/accountRoutes");
 const creditRoutes = require("./routes/creditRoutes");
 const depositRoutes = require("./routes/depositRoutes");
+const dashboardRoutes = require("./routes/dashboards");
 const path = require("path");
 const app = express();
 const cookieParser = require("cookie-parser");
 //MIDDLEWARE
 app.use(cookieParser());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.engine("ejs", require("ejs").__express);
 app.set("views", path.join(__dirname, "views"));
@@ -19,7 +21,10 @@ app.use("/users", userRouter);
 app.use("/account", accountRoutes);
 app.use("/credit", creditRoutes);
 app.use("/deposit", depositRoutes);
-
+app.use("/dashboard", dashboardRoutes);
+app.get("/", (req, res) => {
+	res.redirect(`/auth/login`);
+});
 // Конфигурация прослушивания порта
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

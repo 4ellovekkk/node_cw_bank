@@ -11,14 +11,12 @@
 			<label for="fromAccount">From Account:</label>
 			<select id="fromAccount" name="fromAccount">
 				<% accounts.forEach((account) => { %>
-				<option value="<%= account.id %>">
-					<%= account.id %> - <%= account.account_type %>
-				</option>
+				<option value="<%= account.id %>"><%= account.id %></option>
 				<% }); %>
 			</select>
 			<br /><br />
 			<label for="balance">Balance:</label>
-			<span id="balanceDisplay"></span>
+			<span id="balanceDisplay">Select an account to view balance</span>
 			<br /><br />
 			<label for="toAccount">To Account:</label>
 			<input type="text" id="toAccount" name="toAccount" required />
@@ -34,9 +32,20 @@
 				.getElementById("fromAccount")
 				.addEventListener("change", async function () {
 					const accountId = this.value;
-					const response = await fetch(`/account/balance/${accountId}`);
-					const data = await response.json();
-					document.getElementById("balanceDisplay").textContent = data.balance;
+					try {
+						const response = await fetch(`/account/balance/${accountId}`);
+						if (!response.ok) {
+							throw new Error("Network response was not ok");
+						}
+						const data = await response.json();
+						document.getElementById(
+							"balanceDisplay"
+						).textContent = `Balance: ${data.balance}`;
+					} catch (error) {
+						console.error("Error fetching balance:", error);
+						document.getElementById("balanceDisplay").textContent =
+							"Error loading balance";
+					}
 				});
 
 			document
@@ -46,13 +55,13 @@
 
 					const formData = new FormData(this);
 					const transferData = {
-						fromAccount: formData.get("fromAccount"),
-						toAccount: formData.get("toAccount"),
-						amount: formData.get("amount"),
+						fromAccountId: parseInt(formData.get("fromAccount")),
+						toAccountId: parseInt(formData.get("toAccount")),
+						amount: parseInt(formData.get("amount")),
 					};
 
 					try {
-						const response = await fetch("/transfer", {
+						const response = await fetch("/account/transfer", {
 							method: "POST",
 							headers: {
 								"Content-Type": "application/json",

@@ -152,8 +152,19 @@ router.post("/login", async (req, res) => {
 		// Установка токена как cookie
 		res.cookie("token", token, { httpOnly: true, secure: true });
 
-		// Отправка ответа об успешном входе
-		res.json({ message: "Login successful" });
+		// Получение роли пользователя из токена
+		const userRole = await getUserRoleFromToken(token);
+
+		// Перенаправление пользователя в зависимости от его роли
+		if (userRole === 1) {
+			res.redirect("/dashboard/admin-dashboard");
+		} else if (userRole === 2) {
+			res.redirect("/dashboard/worker-dashboard");
+		} else if (userRole === 3) {
+			res.redirect("/dashboard/user-dashboard");
+		} else {
+			res.status(403).json({ error: "Invalid role" });
+		}
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: "Error logging in" });

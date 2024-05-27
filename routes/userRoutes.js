@@ -35,10 +35,38 @@ async function getUserRoleFromToken(token) {
 	}
 }
 
-// GET запрос для отображения страницы изменения информации о пользователе
+async function getUserIdFromToken(token) {
+	try {
+		// Верификация токена
+		const decodedToken = jwt.verify(token, "secret_key");
+		return decodedToken.id; // Возвращаем id пользователя из токена
+	} catch (error) {
+		console.error("Ошибка при получении id пользователя из токена:", error);
+		return null; // Возвращаем null в случае ошибки
+	}
+}
 router.get("/edit-user/:id", async (req, res) => {
 	let id = req.params.id;
 	try {
+		const token = req.cookies.token;
+		if (!token) {
+			return res.status(401).send("Unauthorized");
+		}
+
+		const userId = await getUserIdFromToken(token);
+		if (!userId) {
+			return res.status(401).send("Unauthorized");
+		}
+
+		const userRole = await getUserRoleFromToken(token);
+		if (userRole === null) {
+			return res.status(500).send("Error fetching user role");
+		}
+
+		if (userRole === 3 && parseInt(id) !== userId) {
+			return res.status(403).send("Insufficient privileges");
+		}
+
 		const user = await prisma.users.findUnique({ where: { id: parseInt(id) } });
 		if (!user) {
 			return res.status(404).send("User not found");
@@ -53,7 +81,26 @@ router.get("/edit-user/:id", async (req, res) => {
 // PUT запрос для обновления информации о пользователе
 router.put("/:id/edit", async (req, res) => {
 	try {
-		const userId = parseInt(req.params.id);
+		const token = req.cookies.token;
+		if (!token) {
+			return res.status(401).send("Unauthorized");
+		}
+
+		const userId = await getUserIdFromToken(token);
+		if (!userId) {
+			return res.status(401).send("Unauthorized");
+		}
+
+		const userRole = await getUserRoleFromToken(token);
+		if (userRole === null) {
+			return res.status(500).send("Error fetching user role");
+		}
+
+		const id = parseInt(req.params.id);
+		if (userRole === 3 && userId !== id) {
+			return res.status(403).send("Insufficient privileges");
+		}
+
 		const {
 			first_name,
 			midle_name,
@@ -81,7 +128,7 @@ router.put("/:id/edit", async (req, res) => {
 
 		const updatedUser = await prisma.users.update({
 			where: {
-				id: userId,
+				id,
 			},
 			data: updateData,
 		});
@@ -95,7 +142,6 @@ router.put("/:id/edit", async (req, res) => {
 		res.status(500).json({ error: "Error updating user information" });
 	}
 });
-
 // DELETE запрос для удаления пользователя
 router.delete("/delete-user/:id", async (req, res) => {
 	try {
@@ -106,10 +152,8 @@ router.delete("/delete-user/:id", async (req, res) => {
 		const userRole = await getUserRoleFromToken(token);
 
 		// Проверка роли пользователя
-		if (userRole !== 1) {
-			return res
-				.status(403)
-				.json({ error: "You do not have permission to perform this action" });
+		if (userRole !== 1 && userRole !== 2) {
+			return res.status(403).json({ error: "Insufficient privileges" });
 		}
 
 		// Удаление пользователя из базы данных

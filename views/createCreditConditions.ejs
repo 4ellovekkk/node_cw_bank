@@ -26,8 +26,9 @@
 				<option value="<%= creditType.id %>">
 					<%= creditType.credit_type_name %>
 				</option>
-				<% }) %></select
-			><br /><br />
+				<% }) %>
+			</select>
+			<br /><br />
 
 			<label for="percentagePerYear">Percentage per year:</label>
 			<input
@@ -46,8 +47,9 @@
 				<option value="<%= currency.id %>">
 					<%= currency.currecy_name %> (<%= currency.currency_short_name %>)
 				</option>
-				<% }) %></select
-			><br /><br />
+				<% }) %>
+			</select>
+			<br /><br />
 
 			<label for="paydate">Paydate:</label>
 			<input type="text" id="paydate" name="paydate" required /><br /><br />
@@ -64,23 +66,33 @@
 					var userData = {
 						creditName: document.getElementById("creditName").value,
 						creditType: document.getElementById("creditType").value,
-						percentagePerYear:
-							document.getElementById("percentagePerYear").value,
-						maxSum: document.getElementById("maxSum").value,
+						percentagePerYear: parseFloat(
+							document.getElementById("percentagePerYear").value
+						),
+						maxSum: parseFloat(document.getElementById("maxSum").value),
 						currency: document.getElementById("currency").value,
 						paydate: document.getElementById("paydate").value,
 					};
 
-					fetch("/credit/addCreditConditions", {
-						method: "POST",
-						headers: { "Content-Type": "application/json" },
-						body: JSON.stringify(userData),
-					})
-						.then((response) => response.json())
-						.then((data) => {
-							alert(data.message || data.error);
+					if (
+						!isNaN(userData.percentagePerYear) &&
+						userData.percentagePerYear > 0 &&
+						!isNaN(userData.maxSum) &&
+						userData.maxSum > 1
+					) {
+						fetch("/credit/addCreditConditions", {
+							method: "POST",
+							headers: { "Content-Type": "application/json" },
+							body: JSON.stringify(userData),
 						})
-						.catch((error) => console.log("Error: ", error));
+							.then((response) => response.json())
+							.then((data) => {
+								alert(data.message || data.error);
+							})
+							.catch((error) => console.log("Error: ", error));
+					} else {
+						alert("Пожалуйста введите корректные значения");
+					}
 				});
 		</script>
 	</body>

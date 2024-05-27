@@ -1,0 +1,644 @@
+{
+	"info": {
+		"name": "Course Work Node JS requests test",
+		"_postman_id": "12345-67890-abcdef",
+		"description": "API for Node JS server",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Account Creation Page",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/account-creation",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["account-creation"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Account",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"account_type\": \"1\", \"currency\": \"1\", \"owner\": \"1\"}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/account-creation",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["account-creation"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Account",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/account-deletion/1",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["account-deletion", "1"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Transfer Money Page",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "token=your_jwt_token"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/transfer-money",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["transfer-money"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transfer Money",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"fromAccountId\": \"1\", \"toAccountId\": \"2\", \"amount\": \"100\"}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/transfer",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["transfer"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Register Page",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "token=your_jwt_token"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/register",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["register"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/register",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["register"]
+				},
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"newuser\",\n  \"password\": \"password123\",\n  \"role\": \"User\"\n}"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Login Page",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/login",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["login"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/login",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["login"]
+				},
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"testuser\",\n  \"password\": \"password123\"\n}"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/logout",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["logout"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Take Credit Page",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "token=your_jwt_token"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/take-credit",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["take-credit"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Take Credit",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Cookie",
+						"value": "token=your_jwt_token"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/take-credit",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["take-credit"]
+				},
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"creditName\": \"CreditType1\"\n}"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Add Credit Type Page",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "token=your_jwt_token"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/addCreditType",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+
+					"path": ["addCreditType"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Credit Type",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Cookie",
+						"value": "token=your_jwt_token"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/addCreditType",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["addCreditType"]
+				},
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"creditTypeName\": \"Personal Loan\"\n}"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Add Credit Conditions Page",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "token=your_jwt_token"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/addCreditConditions",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["addCreditConditions"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Credit Conditions",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Cookie",
+						"value": "token=your_jwt_token"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/addCreditConditions",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["addCreditConditions"]
+				},
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"creditName\": \"CreditType1\",\n  \"creditType\": \"1\",\n  \"percentagePerYear\": \"5.5\",\n  \"maxSum\": \"10000\",\n  \"currency\": \"1\",\n  \"paydate\": \"2024-12-31\"\n}"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Credit Conditions",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Cookie",
+						"value": "token=your_jwt_token"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/deleteCreditConditions",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["deleteCreditConditions"]
+				},
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"creditConditionId\": \"1\"\n}"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Credit Type",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Cookie",
+						"value": "token=your_jwt_token"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/deleteCreditType",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["deleteCreditType"]
+				},
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"creditTypeId\": \"1\"\n}"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Add Deposit Type Page",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "token=your_jwt_token"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/addDepositType",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["addDepositType"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Deposit Type",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Cookie",
+						"value": "token=your_jwt_token"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"depositTypeName\": \"New Deposit Type\"}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/addDepositType",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["addDepositType"]
+				}
+			},
+			"response": []
+		},
+
+		{
+			"name": "Get Add Deposit Condition Page",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "token=your_jwt_token"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/add-deposit-condition",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["add-deposit-condition"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Deposit Condition",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Cookie",
+						"value": "token=your_jwt_token"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"depositConditionName\": \"New Condition\", \"depositType\": 1, \"percentagePerYear\": 5, \"currency\": \"USD\", \"currencyDepositConditionCurrencyId\": 1}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/add-deposit-condition",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["add-deposit-condition"]
+				}
+			},
+			"response": []
+		},
+
+		{
+			"name": "Delete Deposit Condition",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "token=your_jwt_token"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/delete-deposit-condition/1",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["delete-deposit-condition", "1"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Take Deposit Page",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "token=your_jwt_token"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/take-deposit",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["take-deposit"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Take Deposit",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Cookie",
+						"value": "token=your_jwt_token"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"depositConditionName\": \"Existing Condition Name\"}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/take-deposit",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["take-deposit"]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User Edit Form",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/edit-user/:id",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["edit-user", ":id"]
+				}
+			}
+		},
+		{
+			"name": "Update User Information",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"first_name\": \"John\", \"midle_name\": \"Doe\", \"last_name\": \"Smith\", \"phone\": \"1234567890\", \"user_role\": 2, \"username\": \"johnsmith\", \"passwd\": \"newpassword\"}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/:id/edit",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": [":id", "edit"]
+				}
+			}
+		},
+		{
+			"name": "Delete User",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Cookie",
+						"value": "token=your_jwt_token"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/delete-user/:id",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["delete-user", ":id"]
+				}
+			}
+		},
+		{
+			"name": "Get Account Balance",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3000/balance/1",
+					"protocol": "http",
+					"host": ["localhost"],
+					"port": "3000",
+					"path": ["balance", "1"]
+				}
+			},
+			"response": []
+		}
+	]
+}
