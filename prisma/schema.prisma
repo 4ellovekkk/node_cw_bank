@@ -33,6 +33,10 @@ model action_types {
   action_name String? @db.NVarChar(200)
 }
 
+
+
+
+
 model credit_conditions {
   id                                            Int           @id(map: "PK__credit_c__3213E83F6D246337") @default(autoincrement())
   credit_name                                   String?       @unique(map: "UQ__credit_c__E2D7E624B7F9B46A") @db.NVarChar(200)

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Chat</title>
+		<script src="/socket.io/socket.io.js"></script>
+	</head>
+
+	<body>
+		<h1><%= userRole === 'admin' ? 'Admin Chat' : 'User Chat' %></h1>
+		<h2>Chat History:</h2>
+		<ul id="chatHistory">
+			<% userMessagesToShow.forEach((message, index) => { %>
+			<li><%= userRole === 'admin' ? 'User: ' : 'Admin: ' %> <%= message %></li>
+			<li>
+				<%= userRole === 'admin' ? 'Admin: ' : 'User: ' %> <%=
+				adminMessagesToShow[index] %>
+			</li>
+			<% }); %>
+		</ul>
+		<form id="chatForm">
+			<input type="hidden" name="role" value="<%= userRole %>" />
+			<input
+				type="text"
+				id="messageInput"
+				name="message"
+				placeholder="Type your message"
+			/>
+			<button type="submit">Send</button>
+		</form>
+		<script>
+			const socket = io();
+			const chatHistory = document.getElementById("chatHistory");
+			const chatForm = document.getElementById("chatForm");
+			const messageInput = document.getElementById("messageInput");
+
+			socket.on("newMessage", (data) => {
+				const li = document.createElement("li");
+				li.textContent = `${data.role === "admin" ? "Admin: " : "User: "} ${
+					data.message
+				}`;
+				chatHistory.appendChild(li);
+			});
+
+			chatForm.addEventListener("submit", (event) => {
+				event.preventDefault();
+				const message = messageInput.value;
+				const role = "<%= userRole %>";
+				socket.emit("sendMessage", { role, message });
+				messageInput.value = "";
+			});
+		</script>
+	</body>
+</html>

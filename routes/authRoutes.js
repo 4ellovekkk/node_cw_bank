@@ -38,6 +38,17 @@ async function getUserRoleFromToken(token) {
 	}
 }
 
+async function getUserIdFromToken(token) {
+	try {
+		// Верификация токена
+		const decodedToken = jwt.verify(token, "secret_key");
+		return decodedToken.id; // Возвращаем id пользователя из токена
+	} catch (error) {
+		console.error("Ошибка при получении id пользователя из токена:", error);
+		return null; // Возвращаем null в случае ошибки
+	}
+}
+
 // GET запрос для отображения страницы регистрации
 router.get("/register", async (req, res) => {
 	try {
