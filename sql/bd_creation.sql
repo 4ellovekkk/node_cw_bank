@@ -266,3 +266,13 @@ add
     paydate NVARCHAR(7)
 
 alter table deposit_conditioins add unique(deposit_condition_name);
+
+
+
+CREATE TABLE Chat (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    message NVARCHAR(MAX),
+    senderId INT FOREIGN key REFERENCES users(id),
+    receiverId INT FOREIGN key REFERENCES users(id),
+    createdAt DATETIME DEFAULT GETDATE(),
+);

@@ -33,10 +33,6 @@ model action_types {
   action_name String? @db.NVarChar(200)
 }
 
-
-
-
-
 model credit_conditions {
   id                                            Int           @id(map: "PK__credit_c__3213E83F6D246337") @default(autoincrement())
   credit_name                                   String?       @unique(map: "UQ__credit_c__E2D7E624B7F9B46A") @db.NVarChar(200)
@@ -111,15 +107,27 @@ model role {
 }
 
 model users {
-  id            Int             @id(map: "PK__users__3213E83FD0197FA7") @default(autoincrement())
-  first_name    String?         @db.NVarChar(200)
-  midle_name    String?         @db.NVarChar(200)
-  last_name     String?         @db.NVarChar(200)
-  phone         String?         @db.NChar(15)
-  user_role     Int?
-  username      String?         @unique(map: "UQ__users__F3DBC57208A65445") @db.VarChar(200)
-  passwd        String?         @db.VarChar(255)
-  accounts      accounts[]
-  operation_log operation_log[]
-  role          role?           @relation(fields: [user_role], references: [id], onDelete: Cascade, map: "FK__users__user_role__398D8EEE")
+  id                          Int             @id(map: "PK__users__3213E83FD0197FA7") @default(autoincrement())
+  first_name                  String?         @db.NVarChar(200)
+  midle_name                  String?         @db.NVarChar(200)
+  last_name                   String?         @db.NVarChar(200)
+  phone                       String?         @db.NChar(15)
+  user_role                   Int?
+  username                    String?         @unique(map: "UQ__users__F3DBC57208A65445") @db.VarChar(200)
+  passwd                      String?         @db.VarChar(255)
+  accounts                    accounts[]
+  Chat_Chat_recieverIdTousers Chat[]          @relation("Chat_recieverIdTousers")
+  sentMessages                Chat[]          @relation("SentMessages")
+  operation_log               operation_log[]
+  role                        role?           @relation(fields: [user_role], references: [id], onDelete: Cascade, map: "FK__users__user_role__398D8EEE")
+}
+
+model Chat {
+  id                           Int       @id(map: "PK__Chat__3213E83FB0602276") @default(autoincrement())
+  message                      String?   @db.NVarChar(Max)
+  senderId                     Int?
+  recieverId                   Int?
+  createdAt                    DateTime? @default(now(), map: "DF__Chat__createdAt__2B0A656D") @db.DateTime
+  users_Chat_recieverIdTousers users?    @relation("Chat_recieverIdTousers", fields: [recieverId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Chat__recieverId__2A164134")
+  sender                       users?    @relation("SentMessages", fields: [senderId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Chat__senderId__29221CFB")
 }
