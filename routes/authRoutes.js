@@ -53,7 +53,7 @@ async function getUserIdFromToken(token) {
 router.get("/register", async (req, res) => {
 	try {
 		token = req.cookies.token;
-		if ((await getUserRoleFromToken(token)) != parseInt(1)) {
+		if ((getUserRoleFromToken(token)) != parseInt(1)) {
 			return res.status(403).json({ message: "Insufficient priveleges" });
 		}
 

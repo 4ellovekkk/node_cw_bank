@@ -7,12 +7,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6f9b93c8-5d51-46a6-a997-41f22334faee" name="Changes" comment="logouts added">
+    <list default="true" id="6f9b93c8-5d51-46a6-a997-41f22334faee" name="Changes" comment="some major fixes for saving my ass">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/depositRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/depositRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/createDepositCondition.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/createDepositCondition.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/user-dashboard.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/user-dashboard.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Записка Макаров.docx" beforeDir="false" afterPath="$PROJECT_DIR$/Записка Макаров.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/authRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/authRoutes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +105,7 @@
       <workItem from="1717012785784" duration="316000" />
       <workItem from="1717013112227" duration="4462000" />
       <workItem from="1717148169655" duration="10443000" />
-      <workItem from="1717160400841" duration="4987000" />
+      <workItem from="1717160400841" duration="5346000" />
     </task>
     <task id="LOCAL-00001" summary="chat between admin and user added">
       <option name="closed" value="true" />
@@ -142,7 +139,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717160535522</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="some major fixes for saving my ass">
+      <option name="closed" value="true" />
+      <created>1717167886831</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1717167886831</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -166,7 +171,8 @@
     <MESSAGE value="https added" />
     <MESSAGE value="workspaces for all roles made. fixed most of errors" />
     <MESSAGE value="logouts added" />
-    <option name="LAST_COMMIT_MESSAGE" value="logouts added" />
+    <MESSAGE value="some major fixes for saving my ass" />
+    <option name="LAST_COMMIT_MESSAGE" value="some major fixes for saving my ass" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
