@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worker Dashboard</title>
+</head>
+<body>
+<h1>Welcome to the Worker Dashboard</h1>
+<p>Here, you can perform various tasks available for workers.</p>
+
+<h2>Add Deposit Type</h2>
+<form action="/deposit/addDepositType" method="POST">
+    <label for="depositTypeName">Deposit Type Name:</label>
+    <input type="text" id="depositTypeName" name="depositTypeName" required>
+    <button type="submit">Add Deposit Type</button>
+</form>
+
+<h2>Add Deposit Conditions</h2>
+<a href="/deposit/addDepositConditions">add deposit conditions</a>
+
+<h2>Delete Deposit Condition</h2>
+<form id="deleteDepositConditionForm">
+    <label for="depositConditionId">Deposit Condition ID:</label>
+    <input type="text" id="depositConditionId" name="depositConditionId" required><br>
+    <button type="button" onclick="deleteDepositCondition()">Delete Deposit Condition</button>
+</form>
+
+<h2>Create Account</h2>>
+<a href="/account/account-creation">create account</a>
+
+<h2>Edit User</h2>
+<div>
+    <label for="userId">User ID:</label>
+    <input type="text" id="userId" placeholder="Enter user ID">
+    <button onclick="editItem('userId', 'users/edit-user')">Edit User</button>
+</div>
+
+<script>
+    function editItem(inputId, endpoint) {
+        const id = document.getElementById(inputId).value;
+        const data = { /* Include any additional data here if necessary */};
+        if (id) {
+            fetch(`https://localhost:3000/${endpoint}/${id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert(`${endpoint.replace('-', ' ')} edited successfully!`);
+                    } else {
+                        alert(`Failed to edit ${endpoint.replace('-', ' ')}.`);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error occurred. Check console for details.');
+                });
+        } else {
+            alert('Please enter a valid ID.');
+        }
+    }
+
+    function deleteDepositCondition() {
+        const depositConditionId = document.getElementById("depositConditionId").value;
+        if (depositConditionId) {
+            fetch(`/deposit/delete-deposit-condition/${depositConditionId}`, {
+                method: 'DELETE',
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert("Deposit condition deleted successfully!");
+                        // Optionally, you can perform additional actions here after successful deletion
+                    } else {
+                        alert("Failed to delete deposit condition.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error occurred. Check console for details.');
+                });
+        } else {
+            alert('Please enter a valid deposit condition ID.');
+        }
+    }
+</script>
+</body>
+</html>

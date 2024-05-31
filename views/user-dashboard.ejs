@@ -1,20 +1,25 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<title>User dashboard</title>
-		<script src="/socket.io/socket.io.js"></script>
-	</head>
+<html lang="en">
+<head>
+	<title>User dashboard</title>
+	<script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+<h1>User Page</h1>
+<div>
+	<a href="/account/transfer-money">Transfer Money</a>
+	<br>
+	<a href="/account/transfer-money">Transfer Money</a>
+	<br>
+	<a href="/deposit/take-deposit">Take Deposit</a>
+</div>
+<script>
+	const socket = io();
+	socket.emit("register", "user");
 
-	<body>
-		<h1>User Page</h1>
-		<script>
-			const socket = io();
-
-			socket.emit("register", "user");
-
-			socket.on("notification", (data) => {
-				alert(data.message);
-			});
-		</script>
-	</body>
+	socket.on("notification", (data) => {
+		alert(data.message);
+	});
+</script>
+</body>
 </html>

@@ -1,8 +1,6 @@
 const express = require("express");
-const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { PrismaClient } = require("@prisma/client");
-const { error } = require("console");
 
 const prisma = new PrismaClient();
 const router = express.Router();
@@ -25,8 +23,7 @@ async function getUserRoleFromToken(token) {
 			return null;
 		}
 
-		const userRole = user.role.id;
-		return userRole;
+		return user.role.id;
 	} catch (error) {
 		console.error("Ошибка при получении роли пользователя из токена:", error);
 		return null;
@@ -84,7 +81,7 @@ router.post("/addDepositType", async (req, res) => {
 	}
 });
 
-router.get("/add-deposit-condition", async (req, res) => {
+router.get("/addDepositConditions", async (req, res) => {
 	try {
 		const token = req.cookies.token;
 		const userRole = await getUserRoleFromToken(token);
@@ -96,11 +93,10 @@ router.get("/add-deposit-condition", async (req, res) => {
 		const depositConditions = await prisma.deposit_conditioins.findMany({
 			include: {
 				deposit_types: true,
-				currency: true,
 			},
 		});
 
-		res.render("creteDepositCondition", { depositConditions });
+		res.render("createDepositCondition", {depositConditions});
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: "Error retrieving deposit conditions" });
@@ -123,20 +119,22 @@ router.post("/add-deposit-condition", async (req, res) => {
 			currency,
 			currencyDepositConditionCurrencyId,
 		} = req.body;
-
-		const newDepositCondition = await prisma.deposit_conditioins.create({
-			data: {
-				deposit_condition_name: depositConditionName,
-				deposit_type: depositType,
-				percentage_per_year: percentagePerYear,
-				currency: currency,
-				currency_deposit_conditioins_currencyTocurrency: {
-					connect: {
-						id: currencyDepositConditionCurrencyId,
+		let newDepositCondition;
+		if (parseInt(percentagePerYear) > 0) {
+			newDepositCondition = await prisma.deposit_conditioins.create({
+				data: {
+					deposit_condition_name: depositConditionName,
+					deposit_type: parseInt(depositType),
+					percentage_per_year: parseFloat(percentagePerYear),
+					currency: currency,
+					currency_deposit_conditioins_currencyTocurrency: {
+						connect: {
+							id: currencyDepositConditionCurrencyId,
+						},
 					},
 				},
-			},
-		});
+			});
+		}
 
 		res.status(200).json({
 			message: "Deposit condition added successfully",
@@ -175,7 +173,7 @@ router.delete("/delete-deposit-condition/:id", async (req, res) => {
 });
 router.get("/take-deposit", async (req, res) => {
 	try {
-		if ((await !getUserRoleFromToken(req.cookies.token)) == 3) {
+		if ((await !getUserRoleFromToken(req.cookies.token)) === 3) {
 			res.status(400).json({ error: "Incorrect role" });
 		}
 		// Получение данных из базы данных

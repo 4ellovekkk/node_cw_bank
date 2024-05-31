@@ -1,7 +1,6 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const { PrismaClient } = require("@prisma/client");
-const { error } = require("console");
 
 const prisma = new PrismaClient();
 const router = express.Router();
@@ -28,9 +27,7 @@ async function getUserRoleFromToken(token) {
 		}
 
 		// Получение роли пользователя
-		const userRole = user.role.id;
-
-		return userRole; // Возвращаем роль пользователя
+		return user.role.id; // Возвращаем роль пользователя
 	} catch (error) {
 		console.error("Ошибка при получении роли пользователя из токена:", error);
 		return null; // Возвращаем null в случае ошибки
@@ -50,7 +47,7 @@ async function getUserIdFromToken(token) {
 
 router.get("/account-creation", async (req, res) => {
 	try {
-		const token = req.headers.authorization.split(" ")[1]; // Получаем токен из заголовка запроса
+		const token = req.cookies.token;// Получаем токен из заголовка запроса
 		const userRole = await getUserRoleFromToken(token);
 
 		// Проверяем роль пользователя
@@ -71,16 +68,16 @@ router.get("/account-creation", async (req, res) => {
 
 router.post("/account-creation", async (req, res) => {
 	try {
-		const token = req.headers.authorization.split(" ")[1]; // Получаем токен из заголовка запроса
+		const token = req.cookies.token; // Получаем токен из заголовка запроса
 		const userRole = await getUserRoleFromToken(token);
 
 		// Проверяем роль пользователя
 		if (userRole === 1 || userRole === 2) {
-			const { account_type, currency } = req.body;
+			const {accountType, currency} = req.body;
 			// Создание счета в базе данных
 			const newAccount = await prisma.accounts.create({
 				data: {
-					account_type: parseInt(account_type),
+					account_type: parseInt(accountType),
 					currency: parseInt(currency),
 					is_locked: false,
 					balance: 0,

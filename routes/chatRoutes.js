@@ -7,7 +7,7 @@ module.exports = (io) => {
     router.get("/:role", async (req, res) => {
         try {
             const role = req.params.role;
-            const userRole = role === "admin" ? "user" : "admin";
+            const userRole = role === "admin" ? "admin" : "user";
             const userMessagesToShow = userRole === "admin" ? adminMessages : userMessages;
             const adminMessagesToShow = userRole === "admin" ? userMessages : adminMessages;
             res.render("chat", {userRole, userMessagesToShow, adminMessagesToShow});

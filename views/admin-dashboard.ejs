@@ -1,22 +1,118 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<title>Admin dashboard</title>
-		<script src="/socket.io/socket.io.js"></script>
-	</head>
+<html lang="en">
+<head>
+	<title>Admin dashboard</title>
+	<script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+<h1>Admin Page</h1>
+<div>
+	<a href="/chat/admin">chat</a>
+	<br>
+	<a href="/account/account-creation">create account</a>
+	<br>
+	<a href="/credit/addCreditType">add credit type</a>
+	<br>
+	<a href="/credit/addCreditConditions">add credit conditions</a>
+	<br>
+	<a href="/deposit/addDepositType">add deposit type</a>
+	<br>
+	<a href="/deposit/addDepositConditions">add deposit conditions</a>
+	<br>
+	<a href="/auth/register">register user</a>
+	<br>
+</div>
+<div>
+	<div>
+		<label for="creditTypeId">Delete Credit Type:</label>
+		<input type="text" id="creditTypeId" placeholder="Enter credit type ID">
+		<button onclick="deleteItem('creditTypeId', 'credit/deleteCreditType')">Delete</button>
+	</div>
+	<div>
+		<label for="creditConditionId">Delete Credit Condition:</label>
+		<input type="text" id="creditConditionId" placeholder="Enter credit condition ID">
+		<button onclick="deleteItem('creditConditionId', 'credit/DeleteCreditType')">Delete</button>
+	</div>
+	<div>
+		<label for="depositConditionId">Delete Deposit Condition:</label>
+		<input type="text" id="depositConditionId" placeholder="Enter deposit condition ID">
+		<button onclick="deleteItem('depositConditionId', 'deposit/delete-deposit-condition')">Delete</button>
+	</div>
+	<div>
+		<label for="accountId">Delete Account:</label>
+		<input type="text" id="accountId" placeholder="Enter account ID">
+		<button onclick="deleteItem('accountId', 'account/account-deletion')">Delete</button>
+	</div>
+	<div>
+		<label for="userId">Delete User:</label>
+		<input type="text" id="userId" placeholder="Enter user ID">
+		<button onclick="deleteItem('userId', 'users/delete-user')">Delete</button>
+	</div>
+	<div>
+		<label for="userId">Edit User:</label>
+		<input type="text" id="userId" placeholder="Enter user ID">
+		<button onclick="editItem('userId', 'users/edit-user')">Delete</button>
+	</div>
+</div>
+<button id="notify-btn">Send Notification</button>
+<script>
+	const socket = io();
 
-	<body>
-		<h1>Admin Page</h1>
-		<button id="notify-btn">Send Notification</button>
-		<script>
-			const socket = io();
+	socket.emit("register", "admin");
 
-			socket.emit("register", "admin");
+	document.getElementById("notify-btn").addEventListener("click", () => {
+		const message = "Hello, this is a notification from admin!";
+		socket.emit("sendNotification", message);
+	});
 
-			document.getElementById("notify-btn").addEventListener("click", () => {
-				const message = "Hello, this is a notification from admin!";
-				socket.emit("sendNotification", message);
-			});
-		</script>
-	</body>
+	function deleteItem(inputId, endpoint) {
+		const id = document.getElementById(inputId).value;
+		if (id) {
+			fetch(`https://localhost:3000/${endpoint}/${id}`, {
+				method: 'DELETE'
+			})
+					.then(response => {
+						if (response.ok) {
+							alert(`${endpoint.replace('-', ' ')} deleted successfully!`);
+						} else {
+							alert(`Failed to delete ${endpoint.replace('-', ' ')}.`);
+						}
+					})
+					.catch(error => {
+						console.error('Error:', error);
+						alert('Error occurred. Check console for details.');
+					});
+		} else {
+			alert('Please enter a valid ID.');
+		}
+	}
+
+	function editItem(inputId, endpoint) {
+		const id = document.getElementById(inputId).value;
+		const data = { /* Include any additional data here if necessary */};
+		if (id) {
+			fetch(`https://localhost:3000/${endpoint}/${id}`, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(data),
+			})
+					.then(response => {
+						if (response.ok) {
+							alert(`${endpoint.replace('-', ' ')} edited successfully!`);
+						} else {
+							alert(`Failed to edit ${endpoint.replace('-', ' ')}.`);
+						}
+					})
+					.catch(error => {
+						console.error('Error:', error);
+						alert('Error occurred. Check console for details.');
+					});
+		} else {
+			alert('Please enter a valid ID.');
+		}
+	}
+</script>
+</body>
 </html>
