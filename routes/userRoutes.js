@@ -3,6 +3,7 @@ const { PrismaClient } = require("@prisma/client");
 const bcrypt = require("bcryptjs");
 const prisma = new PrismaClient();
 const router = express.Router();
+const jwt = require("jsonwebtoken");
 
 async function getUserRoleFromToken(token) {
 	try {
@@ -48,17 +49,12 @@ async function getUserIdFromToken(token) {
 router.get("/edit-user/:id", async (req, res) => {
 	let id = req.params.id;
 	try {
-		const token = req.cookies.token;
-		if (!token) {
-			return res.status(401).send("Unauthorized");
-		}
-
-		const userId = await getUserIdFromToken(token);
+			const userId = getUserIdFromToken(req.cookies.token);
 		if (!userId) {
 			return res.status(401).send("Unauthorized");
 		}
 
-		const userRole = await getUserRoleFromToken(token);
+		const userRole = getUserRoleFromToken(req.cookies.token);
 		if (userRole === null) {
 			return res.status(500).send("Error fetching user role");
 		}
