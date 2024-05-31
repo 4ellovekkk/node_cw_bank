@@ -30,9 +30,7 @@ async function getUserRoleFromToken(token) {
 		}
 
 		// Получение роли пользователя
-		const userRole = user.role.id;
-
-		return userRole; // Возвращаем роль пользователя
+        return user.role.id; // Возвращаем роль пользователя
 	} catch (error) {
 		console.error("Ошибка при получении роли пользователя из токена:", error);
 		return null; // Возвращаем null в случае ошибки
@@ -40,7 +38,7 @@ async function getUserRoleFromToken(token) {
 }
 router.get("/take-credit", async (req, res) => {
 	try {
-		if ((await !getUserRoleFromToken(req.cookies.token)) == 3) {
+        if ((!getUserRoleFromToken(req.cookies.token)) === 3) {
 			res.status(400).json({ error: "Incorrect role" });
 		}
 		// Получение данных из базы данных
