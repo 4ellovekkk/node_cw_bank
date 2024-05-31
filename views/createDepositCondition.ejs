@@ -1,99 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Deposit Conditions</title>
-		<style>
-			table {
-				border-collapse: collapse;
-				width: 100%;
-			}
-			th,
-			td {
-				border: 1px solid black;
-				padding: 8px;
-				text-align: left;
-			}
-			th {
-				background-color: #f2f2f2;
-			}
-			tr:nth-child(even) {
-				background-color: #f2f2f2;
-			}
-		</style>
-	</head>
-	<body>
-		<h1>Deposit Conditions</h1>
-		<table>
-			<thead>
-				<tr>
-					<th>Deposit Name</th>
-					<th>Deposit Type Name</th>
-					<th>Percentage Per Year</th>
-					<th>Currency</th>
-					<th>Action</th>
-				</tr>
-			</thead>
-			<tbody>
-				<% depositConditions.forEach((deposit) => { %>
-				<tr>
-					<td><%= deposit.deposit_condition_name %></td>
-					<td><%= deposit.deposit_types.deposit_type_name %></td>
-					<td><%= deposit.percentage_per_year %></td>
-					<td><%= deposit.currency %></td>
-					<td><button>Take</button></td>
-				</tr>
-				<% }); %>
-			</tbody>
-		</table>
-		<script>
-			// Функция для отправки данных на сервер
-			async function sendData(depositData) {
-				try {
-					const response = await fetch("/deposit/take-deposit", {
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json",
-						},
-						body: JSON.stringify(depositData),
-					});
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Create Deposit Conditions</title>
+</head>
+<body>
+<h1>Create Deposit Conditions</h1>
+<form action="/deposit/add-deposit-condition" method="post" id="depositConditionForm">
+	<label for="depositConditionName">Deposit Condition Name:</label>
+	<input type="text" id="depositConditionName" name="depositConditionName" required/><br/><br/>
 
-					const responseData = await response.json();
-					console.log(responseData);
-					// Здесь можно обрабатывать ответ от сервера
-				} catch (error) {
-					console.error("Error:", error);
-				}
-			}
+	<label for="depositType">Deposit Type:</label>
+	<select id="depositType" name="depositType" required>
+		<% depositConditions.forEach(depositCondition => { %>
+			<option value="<%= depositCondition.deposit_types.id %>">
+				<%= depositCondition.deposit_types.deposit_type_name %>
+			</option>
+		<% }) %>
+	</select>
+	<br/><br/>
 
-			// Находим все кнопки на странице
-			const buttons = document.querySelectorAll("button");
+	<label for="percentagePerYear">Percentage per Year:</label>
+	<input type="number" id="percentagePerYear" name="percentagePerYear" required/><br/><br/>
 
-			// Для каждой кнопки добавляем обработчик события клика
-			buttons.forEach((button) => {
-				button.addEventListener("click", async () => {
-					// Находим строку таблицы, в которой находится кнопка
-					const row = button.closest("tr");
+	<label for="currency">Currency:</label>
+	<select id="currency" name="currency" required>
+		<% depositConditions.forEach(depositCondition => { %>
+			<option value="<%= depositCondition.currency %>">
+				<%= depositCondition.currency %>
+			</option>
+		<% }) %>
+	</select>
+	<br/><br/>
 
-					// Получаем данные из ячеек строки таблицы
-					const depositName = row.cells[0].textContent;
-					const depositTypeName = row.cells[1].textContent;
-					const percentagePerYear = row.cells[2].textContent;
-					const currency = row.cells[3].textContent;
+	<button type="submit">Create Deposit Conditions</button>
+</form>
 
-					// Формируем объект с данными
-					const depositData = {
-						depositName,
-						depositTypeName,
-						percentagePerYear,
-						currency,
-					};
+<script>
+	document.getElementById("depositConditionForm").addEventListener("submit", function (event) {
+		event.preventDefault();
 
-					// Отправляем данные на сервер
-					await sendData(depositData);
-				});
-			});
-		</script>
-	</body>
+		var userData = {
+			depositConditionName: document.getElementById("depositConditionName").value,
+			depositType: document.getElementById("depositType").value,
+			percentagePerYear: parseFloat(document.getElementById("percentagePerYear").value),
+			currency: document.getElementById("currency").value,
+		};
+
+		if (
+				!isNaN(userData.percentagePerYear) &&
+				userData.percentagePerYear > 0
+		) {
+			fetch("/deposit/add-deposit-condition", {
+				method: "POST",
+				headers: {"Content-Type": "application/json"},
+				body: JSON.stringify(userData),
+			})
+					.then((response) => response.json())
+					.then((data) => {
+						alert(data.message || data.error);
+					})
+					.catch((error) => console.log("Error: ", error));
+		} else {
+			alert("Please enter valid values");
+		}
+	});
+</script>
+</body>
 </html>
