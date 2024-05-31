@@ -1,9 +1,10 @@
 const express = require("express");
-const http = require("http");
-const jwt = require("jsonwebtoken"); // Добавьте импорт JWT
+const https = require("https"); // Use the https module
+const fs = require("fs");
+const jwt = require("jsonwebtoken"); // Import JWT
 const {PrismaClient} = require("@prisma/client");
 const authRoutes = require("./routes/authRoutes");
-const userRouter = require("./routes/userRoutes"); // Путь к файлу с роутером
+const userRouter = require("./routes/userRoutes"); // Path to the router file
 const accountRoutes = require("./routes/accountRoutes");
 const creditRoutes = require("./routes/creditRoutes");
 const depositRoutes = require("./routes/depositRoutes");
@@ -13,9 +14,24 @@ const path = require("path");
 const socketIo = require("socket.io");
 const app = express();
 const cookieParser = require("cookie-parser");
-const server = http.createServer(app);
-//MIDDLEWARE
+
+// Read SSL certificate and key
+const privateKey = fs.readFileSync("./ca.key", "utf8");
+const certificate = fs.readFileSync("./ca.pem", "utf8");
+const ca = fs.readFileSync("./ca.pem", "utf8");
+
+const credentials = {
+    key: privateKey,
+    cert: certificate,
+    ca: ca,
+    passphrase: 'lexa'
+};
+
+// Create HTTPS server
+const server = https.createServer(credentials, app);
 const io = socketIo(server);
+
+// MIDDLEWARE
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -23,6 +39,7 @@ app.set("view engine", "ejs");
 app.engine("ejs", require("ejs").__express);
 app.set("views", path.join(__dirname, "views"));
 app.set("io", io);
+
 // ROUTES
 app.use("/auth", authRoutes);
 app.use("/users", userRouter);
@@ -34,48 +51,50 @@ app.use("/chat", chatRoutes(io));
 app.get("/", (req, res) => {
     res.redirect(`/auth/login`);
 });
+
+// AUTH
 const prisma = new PrismaClient();
 
 async function getUserRoleFromToken(token) {
     try {
-        // Верификация токена
+        // Verify token
         const decodedToken = jwt.verify(token, "secret_key");
         const username = decodedToken.username;
 
-        // Поиск пользователя в базе данных
+        // Find user in the database
         const user = await prisma.users.findUnique({
             where: {
                 username: username,
             },
             include: {
-                role: true, // Включаем связанную сущность "role"
+                role: true,
             },
         });
 
         if (!user) {
-            return null; // Пользователь не найден
+            return null;
         }
 
-        // Возвращаем роль пользователя
+        // Return user role
         return user.role.id;
     } catch (error) {
-        console.error("Ошибка при получении роли пользователя из токена:", error);
-        return null; // Возвращаем null в случае ошибки
+        console.error("Error getting user role from token:", error);
+        return null;
     }
 }
 
 async function getUserIdFromToken(token) {
     try {
-        // Верификация токена
+        // Verify token
         const decodedToken = jwt.verify(token, "secret_key");
-        return decodedToken.id; // Возвращаем id пользователя из токена
+        return decodedToken.id; // Return user ID from token
     } catch (error) {
-        console.error("Ошибка при получении id пользователя из токена:", error);
-        return null; // Возвращаем null в случае ошибки
+        console.error("Error getting user ID from token:", error);
+        return null;
     }
 }
 
-
+// SOCKET FUNCTIONALITY
 let clients = {
     users: [],
     admins: [],
@@ -172,7 +191,6 @@ io.on("connection", (socket) => {
     });
 });
 
-
-// Конфигурация прослушивания порта
+// Port configuration
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
