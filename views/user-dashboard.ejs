@@ -9,18 +9,28 @@
 <div>
 	<a href="/chat/user">chat</a>
 	<br>
-	<a href="/credit/take-credit">Take Credit</a>
+	<a href="/credit/open-credit">Take Credit</a>
+	<br>
+	<a href="/credit/my-credits">List active credits</a>
 	<br>
 	<a href="/account/transfer-money">Transfer Money</a>
 	<br>
-	<a href="/deposit/take-deposit">Take Deposit</a>
+	<a href="/deposit/open-deposit">Open Deposit</a>
 	<br>
 	<a href="/users/edit-user">Edit personal info</a>
 	<br>
 	<a href="/account/fill">Refill account</a>
 	<br>
+	<a href="/deposit/my-deposits">List active deposits</a>
+	<br>
 	<a href="/auth/logout">LOGOUT</a>
 	<br>
+	<% if (currentDate && nextPaymentDate) { %>
+		<p>Current Date: <%= currentDate %></p>
+		<p>Next Payment Date: <%= nextPaymentDate %></p>
+	<% } else { %>
+		<p>No data available</p>
+	<% } %>
 </div>
 <script>
 	const socket = io();

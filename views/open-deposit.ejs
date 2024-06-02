@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Open Deposit Account</title>
+</head>
+<body>
+<h1>Open Deposit Account</h1>
+<form action="/deposit/open-deposit" method="POST">
+    <label for="depositConditionId">Deposit Condition:</label>
+    <select id="depositConditionId" name="depositConditionId" required>
+        <% depositConditions.forEach(condition => { %>
+            <option value="<%= condition.id %>"><%= condition.deposit_condition_name %></option>
+        <% }) %>
+    </select>
+    <br>
+    <label for="initialAmount">Initial Amount:</label>
+    <input type="number" min="1" id="initialAmount" name="initialAmount" required>
+    <br>
+    <button type="submit">Open Deposit Account</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>My Deposits</title>
+</head>
+<body>
+<h1>My Deposits</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Account ID</th>
+        <th>Balance</th>
+        <th>Currency</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% deposits.forEach(deposit => { %>
+        <tr>
+            <td><%= deposit.id %></td>
+            <td><%= deposit.balance %></td>
+            <td><%= deposit.currency_accounts_currencyTocurrency.currecy_name %></td>
+        </tr>
+    <% }) %>
+    </tbody>
+</table>
+<a href="/dashboard/user-dashboard">Back to Home</a>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>My Credits</title>
+</head>
+<body>
+<h1>My Credits</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Account ID</th>
+        <th>Balance</th>
+        <th>Currency</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% credits.forEach(credit => { %>
+        <tr>
+            <td><%= credit.id %></td>
+            <td><%= credit.balance %></td>
+            <td><%= credit.currency_accounts_currencyTocurrency.currecy_name %></td>
+        </tr>
+    <% }) %>
+    </tbody>
+</table>
+<a href="/dashboard/user-dashboard">Back to Home</a>
+</body>
+</html>

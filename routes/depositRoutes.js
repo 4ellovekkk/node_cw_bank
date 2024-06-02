@@ -173,76 +173,61 @@ router.delete("/delete-deposit-condition/:id", async (req, res) => {
 	}
 });
 
-router.get("/take-deposit", async (req, res) => {
-	try {
-		const userRole = await getUserRoleFromToken(req.cookies.token);
-		if (userRole !== 3) {
-			return res.status(400).json({error: "Incorrect role"});
-		}
 
-		const depositConditions = await prisma.deposit_conditioins.findMany({
-			include: {
-				deposit_types: true,
-				currency_deposit_conditioins_currencyTocurrency: true
-			}
-		});
-
-		res.render("takeDeposit", { depositConditions });
-	} catch (error) {
-		console.error(error);
-		res.status(500).json({ error: "Error retrieving deposit conditions" });
+// Маршрут для отображения формы открытия вклада
+router.get('/open-deposit', async (req, res) => {
+	if (parseInt(await getUserRoleFromToken(req.cookies.token)) !== 3) {
+		return res.status(403).json({message: "Insufficient privileges"});
 	}
+	const depositConditions = await prisma.deposit_conditioins.findMany();
+	res.render('open-deposit', {depositConditions});
 });
 
-
-router.post("/take-deposit", async (req, res) => {
-	try {
-		let role = await getUserRoleFromToken(req.cookies.token);
-		if (role !== 3) {
-			return res.status(403).json({ error: "Insufficient priveleges" });
+// Маршрут для обработки открытия вклада
+router.post('/open-deposit', async (req, res) => {
+	const {depositConditionId, initialAmount} = req.body;
+	const userId = await getUserIdFromToken(req.cookies.token);
+	const newAccount = await prisma.accounts.create({
+		data: {
+			owner_id: parseInt(userId),
+			account_type: 2, // Предполагается, что тип 2 - это тип депозитного счета
+			balance: parseFloat(initialAmount),
+			currency: (await prisma.deposit_conditioins.findUnique({
+				where: {id: parseInt(depositConditionId)}
+			})).currency
 		}
+	});
 
-		const userId = getUserIdFromToken(req.cookies.token)
-
-		const depositConditionName = req.body.depositConditionName;
-
-		if (!depositConditionName) {
-			return res.status(400).json({error: "Deposit condition name is required"});
+	await prisma.operation_log.create({
+		data: {
+			user_id: parseInt(userId),
+			account_id: newAccount.id,
+			table_name: 'accounts',
+			additional_info: `Opened a new deposit with initial amount ${initialAmount}`
 		}
+	});
 
-		const depositCondition = await prisma.deposit_conditioins.findUnique({
-			where: { deposit_condition_name: depositConditionName },
-			include: { deposit_types: true },
-		});
-
-		if (!depositCondition) {
-			return res.status(404).json({ error: "Deposit condition not found" });
-		}
-
-		const newAccount = await prisma.accounts.create({
-			data: {
-				owner_id: decodedToken.userId,
-				account_type: depositCondition.deposit_types.id,
-				balance: 0,
-				currency: depositCondition.currency,
-				is_locked: false,
-			},
-		});
-
-		await prisma.operation_log.create({
-			data: {
-				user_id: userId,
-				account_id: newAccount.id,
-				table_name: "accounts",
-				additional_info: `Created account for deposit condition with ID ${depositCondition.id}`,
-			},
-		});
-
-		res.status(200).json({message: "Deposit taken successfully", account: newAccount});
-	} catch (error) {
-		console.error("Error:", error);
-		res.status(500).json({ error: "Internal server error" });
-	}
+	res.send('Deposit account opened successfully');
 });
+
+router.get('/my-deposits', async (req, res) => {
+	if (parseInt(await getUserRoleFromToken(req.cookies.token)) !== 3) {
+		return res.status(401).json({message: "Insufficient privileges"});
+	}
+	const userId = await getUserIdFromToken(req.cookies.token)// Замените на фактический идентификатор текущего пользователя
+
+	const deposits = await prisma.accounts.findMany({
+		where: {
+			owner_id: userId,
+			account_type: 2 // Предполагается, что тип 2 - это тип депозитного счета
+		},
+		include: {
+			currency_accounts_currencyTocurrency: true
+		}
+	});
+
+	res.render('my-deposits', {deposits});
+});
+
 
 module.exports = router;

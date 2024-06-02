@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Open Credit</title>
+</head>
+<body>
+<h1>Open Credit</h1>
+<form action="/credit/open-credit" method="POST">
+    <div>
+        <label for="creditConditionId">Credit Condition:</label>
+        <select id="creditConditionId" name="creditConditionId">
+            <% creditConditions.forEach(condition => { %>
+                <option value="<%= condition.id %>"><%= condition.credit_name %></option>
+            <% }) %>
+        </select>
+    </div>
+    <div>
+        <label for="initialAmount">Initial Amount:</label>
+        <input type="number" min="1" id="initialAmount" name="initialAmount">
+    </div>
+    <button type="submit">Open Credit</button>
+</form>
+<a href="/dashboard/user-dashboard">Back to Home</a>
+</body>
+</html>
