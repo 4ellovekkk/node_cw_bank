@@ -34,80 +34,17 @@ async function getUserRoleFromToken(token) {
 		return null; // Возвращаем null в случае ошибки
 	}
 }
-router.get("/take-credit", async (req, res) => {
+
+async function getUserIdFromToken(token) {
 	try {
-		if ((await !getUserRoleFromToken(req.cookies.token)) === 3) {
-			res.status(400).json({ error: "Incorrect role" });
-		}
-		// Получение данных из базы данных
-		const creditConditions = await prisma.credit_conditions.findMany({
-			include: {
-				credit_types: true,
-			},
-		});
-
-		// Рендеринг шаблона EJS и передача данных в него
-		res.render("creditTake", { creditConditions });
+		// Верификация токена
+		const decodedToken = jwt.verify(token, "secret_key");
+		return decodedToken.userId; // Возвращаем id пользователя из токена
 	} catch (error) {
-		console.error(error);
-		res.status(500).json({ error: "Error retrieving credit conditions" });
+		console.error("Ошибка при получении id пользователя из токена:", error);
+		return null; // Возвращаем null в случае ошибки
 	}
-});
-router.post("/take-credit", async (req, res) => {
-	try {
-		// Проверяем наличие токена в заголовках запроса
-		let role = await getUserRoleFromToken(req.cookies.token);
-		if (role !== 3) {
-			return res.status(403).json({ error: "Insufficient priveleges" });
-		}
-
-		// Проверяем токен и получаем id пользователя
-		const decodedToken = jwt.verify(req.cookies.token, "secret_key");
-		const userId = decodedToken.id;
-
-		// Получаем данные из тела запроса
-
-		// Получаем информацию о условиях кредита
-		const creditCondition = await prisma.credit_conditions.findUnique({
-			where: { credit_name: req.body.creditName },
-			include: { credit_types: true }, // Включаем информацию о типе кредита
-		});
-
-		if (!creditCondition) {
-			return res.status(404).json({ error: "Credit condition not found" });
-		}
-
-		// Создаем счет для пользователя
-		const newAccount = await prisma.accounts.create({
-			data: {
-				owner_id: decodedToken.userId,
-				account_type: creditCondition.credit_types.id,
-				balance: creditCondition.max_sum, // Заполняем баланс суммой кредита
-				currency: creditCondition.currency,
-				is_locked: false, // По умолчанию счет не блокируется
-			},
-		});
-
-		// Записываем создание счета в журнал операций
-		await prisma.operation_log.create({
-			data: {
-				user_id: userId,
-				account_id: newAccount.id,
-				table_name: "accounts",
-				additional_info: `Created account for credit condition with ID ${creditCondition.id}`,
-			},
-		});
-
-		// Возвращаем успешный ответ
-		res
-			.status(200)
-			.json({ message: "Credit taken successfully", account: newAccount });
-	} catch (error) {
-		console.error("Error:", error);
-		res.status(500).json({ error: "Internal server error" });
-	}
-});
-
+}
 // GET запрос для страницы добавления типа кредита
 router.get("/addCreditType", async (req, res) => {
 	try {
@@ -321,6 +258,69 @@ router.delete("/deleteCreditType", async (req, res) => {
 		console.error("Ошибка при удалении типа кредита:", error);
 		res.status(500).json({ message: "Internal server error" });
 	}
+});
+
+router.get('/open-credit', async (req, res) => {
+	if (parseInt(await getUserRoleFromToken(req.cookies.token)) !== 3) {
+		return res.status(401).json({message: "Insufficient privileges"});
+	}
+	const creditConditions = await prisma.credit_conditions.findMany();
+	res.render('open-credit', {creditConditions});
+});
+
+// Маршрут для обработки открытия кредита
+router.post('/open-credit', async (req, res) => {
+	if (parseInt(await getUserRoleFromToken(req.cookies.token)) !== 3) {
+		return res.status(401).json({message: "Insufficient privileges"});
+	}
+	const userId = parseInt(await getUserIdFromToken(req.cookies.token))
+
+	const {creditConditionId, initialAmount} = req.body;
+	const credit = await prisma.credit_conditions.findUnique({where: {id: parseInt(creditConditionId)}});
+	if (initialAmount > parseInt(credit.max_sum)) {
+		return res.status(402).json({message: "Select another credit type or lower amount"});
+	}
+	const newAccount = await prisma.accounts.create({
+		data: {
+			owner_id: userId,
+			account_type: 3, // Предполагается, что тип 3 - это тип кредитного счета
+			balance: parseFloat(initialAmount),
+			currency: (await prisma.credit_conditions.findUnique({
+				where: {id: parseInt(creditConditionId)}
+			})).currency
+		}
+	});
+
+	await prisma.operation_log.create({
+		data: {
+			user_id: parseInt(userId),
+			account_id: newAccount.id,
+			table_name: 'accounts',
+			additional_info: `Opened a new credit with initial amount ${initialAmount}`
+		}
+	});
+
+	res.send('Credit account opened successfully');
+});
+
+// Маршрут для получения всех кредитов текущего пользователя
+router.get('/my-credits', async (req, res) => {
+	if (parseInt(await getUserRoleFromToken(req.cookies.token)) !== 3) {
+		return res.status(401).json({message: "Insufficient privileges"});
+	}
+	const userId = parseInt(await getUserIdFromToken(req.cookies.token))
+
+	const credits = await prisma.accounts.findMany({
+		where: {
+			owner_id: userId,
+			account_type: 3 // Предполагается, что тип 3 - это тип кредитного счета
+		},
+		include: {
+			currency_accounts_currencyTocurrency: true
+		}
+	});
+
+	res.render('my-credits', {credits});
 });
 
 module.exports = router;
