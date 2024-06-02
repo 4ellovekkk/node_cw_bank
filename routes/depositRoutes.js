@@ -175,14 +175,16 @@ router.delete("/delete-deposit-condition/:id", async (req, res) => {
 
 router.get("/take-deposit", async (req, res) => {
 	try {
-		if ((await !getUserRoleFromToken(req.cookies.token)) === 3) {
-			res.status(400).json({ error: "Incorrect role" });
+		const userRole = await getUserRoleFromToken(req.cookies.token);
+		if (userRole !== 3) {
+			return res.status(400).json({error: "Incorrect role"});
 		}
 
 		const depositConditions = await prisma.deposit_conditioins.findMany({
 			include: {
 				deposit_types: true,
-			},
+				currency_deposit_conditioins_currencyTocurrency: true
+			}
 		});
 
 		res.render("takeDeposit", { depositConditions });
@@ -191,6 +193,7 @@ router.get("/take-deposit", async (req, res) => {
 		res.status(500).json({ error: "Error retrieving deposit conditions" });
 	}
 });
+
 
 router.post("/take-deposit", async (req, res) => {
 	try {

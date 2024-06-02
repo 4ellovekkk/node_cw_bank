@@ -1,103 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Credit Conditions</title>
-		<style>
-			table {
-				border-collapse: collapse;
-				width: 100%;
-			}
-			th,
-			td {
-				border: 1px solid black;
-				padding: 8px;
-				text-align: left;
-			}
-			th {
-				background-color: #f2f2f2;
-			}
-			tr:nth-child(even) {
-				background-color: #f2f2f2;
-			}
-		</style>
-	</head>
-	<body>
-		<h1>Credit Conditions</h1>
-		<table>
-			<thead>
-				<tr>
-					<th>Credit Name</th>
-					<th>Credit Type Name</th>
-					<th>Max Sum</th>
-					<th>Currency</th>
-					<th>Paydate</th>
-					<th>Action</th>
-				</tr>
-			</thead>
-			<tbody>
-				<% creditConditions.forEach((credit) => { %>
-				<tr>
-					<td><%= credit.credit_name %></td>
-					<td><%= credit.credit_types.credit_type_name %></td>
-					<td><%= credit.max_sum %></td>
-					<td><%= credit.currency %></td>
-					<td><%= credit.paydate %></td>
-					<td><button>Take</button></td>
-				</tr>
-				<% }); %>
-			</tbody>
-		</table>
-		<script>
-			// Функция для отправки данных на сервер
-			async function sendData(creditData) {
-				try {
-					const response = await fetch("/credit/take-credit", {
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json",
-						},
-						body: JSON.stringify(creditData),
-					});
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<title>Credit Conditions</title>
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 100%;
+		}
 
-					const responseData = await response.json();
-					console.log(responseData);
-					// Здесь можно обрабатывать ответ от сервера
-				} catch (error) {
-					console.error("Error:", error);
-				}
-			}
+		th,
+		td {
+			border: 1px solid black;
+			padding: 8px;
+			text-align: left;
+		}
 
-			// Находим все кнопки на странице
-			const buttons = document.querySelectorAll("button");
+		th {
+			background-color: #f2f2f2;
+		}
 
-			// Для каждой кнопки добавляем обработчик события клика
-			buttons.forEach((button) => {
-				button.addEventListener("click", async () => {
-					// Находим строку таблицы, в которой находится кнопка
-					const row = button.closest("tr");
-
-					// Получаем данные из ячеек строки таблицы
-					const creditName = row.cells[0].textContent;
-					const creditTypeName = row.cells[1].textContent;
-					const maxSum = row.cells[2].textContent;
-					const currency = row.cells[3].textContent;
-					const paydate = row.cells[4].textContent;
-
-					// Формируем объект с данными
-					const creditData = {
-						creditName,
-						creditTypeName,
-						maxSum,
-						currency,
-						paydate,
-					};
-
-					// Отправляем данные на сервер
-					await sendData(creditData);
-				});
+		tr:nth-child(even) {
+			background-color: #f2f2f2;
+		}
+	</style>
+</head>
+<body>
+<h1>Credit Conditions</h1>
+<table>
+	<thead>
+	<tr>
+		<th>Credit Name</th>
+		<th>Credit Type Name</th>
+		<th>Max Sum</th>
+		<th>Currency</th>
+		<th>Paydate</th>
+		<th>Action</th>
+	</tr>
+	</thead>
+	<tbody>
+	<% creditConditions.forEach((credit) => { %>
+		<tr>
+			<td><%= credit.credit_name %></td>
+			<td><%= credit.credit_types.credit_type_name %></td>
+			<td><%= credit.max_sum %></td>
+			<td><%= credit.currency %></td>
+			<td><%= credit.paydate %></td>
+			<td>
+				<button>Take</button>
+			</td>
+		</tr>
+	<% }); %>
+	</tbody>
+</table>
+<script>
+	// Функция для отправки данных на сервер
+	async function sendData(creditData) {
+		try {
+			const response = await fetch("/credit/take-credit", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(creditData),
 			});
-		</script>
-	</body>
+
+			const responseData = await response.json();
+			console.log(responseData);
+			// Здесь можно обрабатывать ответ от сервера
+		} catch (error) {
+			console.error("Error:", error);
+		}
+	}
+
+	// Находим все кнопки на странице
+	const buttons = document.querySelectorAll("button");
+
+	// Для каждой кнопки добавляем обработчик события клика
+	buttons.forEach((button) => {
+		button.addEventListener("click", async () => {
+			// Находим строку таблицы, в которой находится кнопка
+			const row = button.closest("tr");
+
+			// Получаем данные из ячеек строки таблицы
+			const creditName = row.cells[0].textContent;
+			const creditTypeName = row.cells[1].textContent;
+			const maxSum = row.cells[2].textContent;
+			const currency = row.cells[3].textContent;
+			const paydate = row.cells[4].textContent;
+
+			// Формируем объект с данными
+			const creditData = {
+				creditName,
+				creditTypeName,
+				maxSum,
+				currency,
+				paydate,
+			};
+
+			// Отправляем данные на сервер
+			await sendData(creditData);
+		});
+	});
+</script>
+</body>
 </html>

@@ -238,5 +238,42 @@ router.get("/balance/:id", async (req, res) => {
 		res.status(500).json({ error: "Internal server error" });
 	}
 });
+router.get("/fill", async (req, res) => {
+	try {
+		if (await getUserRoleFromToken(req.cookies.token) !== 3) {
+			res.status(403).json({error: "Insufficient privileges"});
+		}
+		const userId = await getUserIdFromToken(req.cookies.token);
+		const accountList = await prisma.accounts.findMany({where: {owner_id: userId}});
+		res.render("fillAccount", {accountList});
+	} catch (error) {
+		console.error(`Error fetching accounts for user ${userId}`, error);
+		res.status(500).json({error: "Internal server error"});
+	}
+});
+
+router.post("/fill", async (req, res) => {
+	try {
+		if (await getUserRoleFromToken(req.cookies.token) !== 3) {
+			return res.status(403).json({error: "Insufficient privileges"});
+		}
+		const {accountId, amount} = req.body;
+		const account = await prisma.accounts.findUnique({where: {id: parseInt(accountId)}});
+
+		if (!account) {
+			return res.status(404).json({error: "Account not found"});
+		}
+
+		await prisma.accounts.update({
+			where: {id: parseInt(accountId)},
+			data: {balance: account.balance + parseFloat(amount)}
+		});
+
+		return res.status(200).json({message: "Account balance updated successfully"});
+	} catch (error) {
+		console.error(`Error updating balance for account ${req.body.accountId}`, error);
+		return res.status(500).json({error: "Internal server error"});
+	}
+});
 
 module.exports = router;

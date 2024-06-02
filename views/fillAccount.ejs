@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fill Account</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        select, input {
+            padding: 8px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<h1>Fill Account</h1>
+<form id="fillAccountForm">
+    <div class="form-group">
+        <label for="accountSelect">Select Account:</label>
+        <select id="accountSelect" name="accountId">
+            <option value="">Select an account</option>
+            <% accountList.forEach((account) => { %>
+                <option value="<%= account.id %>"><%= account.id %></option>
+            <% }); %>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="currentBalance">Current Balance:</label>
+        <input type="text" id="currentBalance" readonly>
+    </div>
+    <div class="form-group">
+        <label for="amount">Amount to Refill:</label>
+        <input type="number" id="amount" name="amount" required>
+    </div>
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+    document.getElementById('accountSelect').addEventListener('change', async function () {
+        const accountId = this.value;
+        if (accountId) {
+            try {
+                const response = await fetch(`/account/balance/${accountId}`);
+                const data = await response.json();
+                document.getElementById('currentBalance').value = data.balance;
+            } catch (error) {
+                console.error('Error fetching balance:', error);
+            }
+        } else {
+            document.getElementById('currentBalance').value = '';
+        }
+    });
+
+    document.getElementById('fillAccountForm').addEventListener('submit', async function (event) {
+        event.preventDefault();
+        const accountId = document.getElementById('accountSelect').value;
+        const amount = document.getElementById('amount').value;
+
+        if ((!accountId || !amount) || (amount <= 0)) {
+            alert('Please select an account and enter correct amount');
+            return;
+        }
+
+        try {
+            const response = await fetch('/account/fill', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({accountId, amount})
+            });
+
+            const data = await response.json();
+            alert(data.message);
+            document.getElementById('currentBalance').value = parseFloat(document.getElementById('currentBalance').value) + parseFloat(amount);
+            document.getElementById('amount').value = '';
+        } catch (error) {
+            console.error('Error filling account:', error);
+        }
+    });
+</script>
+</body>
+</html>

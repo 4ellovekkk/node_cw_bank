@@ -8,17 +8,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6f9b93c8-5d51-46a6-a997-41f22334faee" name="Changes" comment="credit conditions add fixed, lock/unlock for user profiles added, auth modified">
+      <change afterPath="$PROJECT_DIR$/views/fillAccount.ejs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/prisma/schema.prisma" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/accountRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/accountRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/authRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/authRoutes.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/creditRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/creditRoutes.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/depositRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/depositRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/userRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/userRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/createDepositCondition.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/createDepositCondition.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/creditTake.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/creditTake.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/takeDeposit.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/takeDeposit.ejs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/user-dashboard.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/user-dashboard.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/worker.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/worker.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/~$писка Макаров.docx" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,7 +112,7 @@
       <workItem from="1717013112227" duration="4462000" />
       <workItem from="1717148169655" duration="10443000" />
       <workItem from="1717160400841" duration="8665000" />
-      <workItem from="1717313276246" duration="10179000" />
+      <workItem from="1717313276246" duration="14768000" />
     </task>
     <task id="LOCAL-00001" summary="chat between admin and user added">
       <option name="closed" value="true" />
@@ -173,7 +170,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717171133313</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="credit conditions add fixed, lock/unlock for user profiles added, auth modified">
+      <option name="closed" value="true" />
+      <created>1717346720451</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1717346720451</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

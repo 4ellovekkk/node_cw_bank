@@ -53,7 +53,6 @@ router.get("/take-credit", async (req, res) => {
 		res.status(500).json({ error: "Error retrieving credit conditions" });
 	}
 });
-
 router.post("/take-credit", async (req, res) => {
 	try {
 		// Проверяем наличие токена в заголовках запроса
@@ -66,6 +65,7 @@ router.post("/take-credit", async (req, res) => {
 		const decodedToken = jwt.verify(req.cookies.token, "secret_key");
 		const userId = decodedToken.id;
 
+		// Получаем данные из тела запроса
 
 		// Получаем информацию о условиях кредита
 		const creditCondition = await prisma.credit_conditions.findUnique({
