@@ -13,9 +13,9 @@
 
 	<label for="depositType">Deposit Type:</label>
 	<select id="depositType" name="depositType" required>
-		<% depositConditions.forEach(depositCondition => { %>
-			<option value="<%= depositCondition.deposit_types.id %>">
-				<%= depositCondition.deposit_types.deposit_type_name %>
+		<% depositTypes.forEach(depositType => { %>
+			<option value="<%= depositType.id %>">
+				<%= depositType.deposit_type_name %>
 			</option>
 		<% }) %>
 	</select>
@@ -26,9 +26,9 @@
 
 	<label for="currency">Currency:</label>
 	<select id="currency" name="currency" required>
-		<% depositConditions.forEach(depositCondition => { %>
-			<option value="<%= depositCondition.currency %>">
-				<%= depositCondition.currency %>
+		<% currencies.forEach(currency => { %>
+			<option value="<%= currency.id %>">
+				<%= currency.currecy_name %>
 			</option>
 		<% }) %>
 	</select>

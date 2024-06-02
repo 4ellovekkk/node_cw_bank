@@ -1,8 +1,6 @@
 const express = require("express");
-const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { PrismaClient } = require("@prisma/client");
-const { error } = require("console");
 
 const prisma = new PrismaClient();
 const router = express.Router();
@@ -38,7 +36,7 @@ async function getUserRoleFromToken(token) {
 }
 router.get("/take-credit", async (req, res) => {
 	try {
-        if ((!getUserRoleFromToken(req.cookies.token)) === 3) {
+		if ((await !getUserRoleFromToken(req.cookies.token)) === 3) {
 			res.status(400).json({ error: "Incorrect role" });
 		}
 		// Получение данных из базы данных
@@ -68,10 +66,6 @@ router.post("/take-credit", async (req, res) => {
 		const decodedToken = jwt.verify(req.cookies.token, "secret_key");
 		const userId = decodedToken.id;
 
-		// Получаем данные из тела запроса
-		const { creditConditionId } = await prisma.credit_conditions.findUnique({
-			where: { credit_name: req.body.creditName },
-		});
 
 		// Получаем информацию о условиях кредита
 		const creditCondition = await prisma.credit_conditions.findUnique({

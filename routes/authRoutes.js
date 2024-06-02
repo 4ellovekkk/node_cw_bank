@@ -29,32 +29,18 @@ async function getUserRoleFromToken(token) {
 		}
 
 		// Получение роли пользователя
-		const userRole = user.role.id;
-
-		return userRole; // Возвращаем роль пользователя
+		return user.role.id; // Возвращаем роль пользователя
 	} catch (error) {
 		console.error("Ошибка при получении роли пользователя из токена:", error);
 		return null; // Возвращаем null в случае ошибки
 	}
 }
-
-async function getUserIdFromToken(token) {
-	try {
-		// Верификация токена
-		const decodedToken = jwt.verify(token, "secret_key");
-		return decodedToken.id; // Возвращаем id пользователя из токена
-	} catch (error) {
-		console.error("Ошибка при получении id пользователя из токена:", error);
-		return null; // Возвращаем null в случае ошибки
-	}
-}
-
 // GET запрос для отображения страницы регистрации
 router.get("/register", async (req, res) => {
 	try {
 		token = req.cookies.token;
-		if ((await getUserRoleFromToken(token)) != parseInt(1)) {
-			return res.status(403).json({ message: "Insufficient priveleges" });
+		if ((await getUserRoleFromToken(token)) !== parseInt(1)) {
+			return res.status(403).json({message: "Insufficient privileges"});
 		}
 
 		jwt.verify(token, "secret_key");
@@ -143,6 +129,11 @@ router.post("/login", async (req, res) => {
 
 		if (!user) {
 			return res.status(404).json({ error: "User not found" });
+		}
+
+		// Check if the user is locked
+		if (user.is_locked) {
+			return res.status(403).json({error: "User account is locked"});
 		}
 
 		// Проверка пароля

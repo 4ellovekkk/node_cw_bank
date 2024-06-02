@@ -27,9 +27,7 @@ async function getUserRoleFromToken(token) {
 		}
 
 		// Получение роли пользователя
-		const userRole = user.role.id;
-
-		return userRole; // Возвращаем роль пользователя
+		return user.role.id; // Возвращаем роль пользователя
 	} catch (error) {
 		console.error("Ошибка при получении роли пользователя из токена:", error);
 		return null; // Возвращаем null в случае ошибки
@@ -40,39 +38,51 @@ async function getUserIdFromToken(token) {
 	try {
 		// Верификация токена
 		const decodedToken = jwt.verify(token, "secret_key");
-		return decodedToken.id; // Возвращаем id пользователя из токена
+		return decodedToken.userId; // Возвращаем id пользователя из токена
 	} catch (error) {
 		console.error("Ошибка при получении id пользователя из токена:", error);
 		return null; // Возвращаем null в случае ошибки
 	}
 }
-router.get("/edit-user/:id", async (req, res) => {
-	let id = req.params.id;
+
+router.get("/edit-user", async (req, res) => {
 	try {
-			const userId = getUserIdFromToken(req.cookies.token);
+		let token = req.cookies.token;
+
+		// Check user role
+		if (await getUserRoleFromToken(token) !== 3) {
+			return res.status(403).json({message: "Insufficient privileges"});
+		}
+
+		// Get userId from token
+		const userId = await getUserIdFromToken(token);
 		if (!userId) {
 			return res.status(401).send("Unauthorized");
 		}
 
-		const userRole = getUserRoleFromToken(req.cookies.token);
+		// Fetch user role
+		const userRole = await getUserRoleFromToken(token);
 		if (userRole === null) {
 			return res.status(500).send("Error fetching user role");
 		}
 
-		if (userRole === 3 && parseInt(id) !== userId) {
-			return res.status(403).send("Insufficient privileges");
-		}
+		// Find user by ID
+		const user = await prisma.users.findUnique({
+			where: {id: parseInt(userId)}
+		});
 
-		const user = await prisma.users.findUnique({ where: { id: parseInt(id) } });
 		if (!user) {
 			return res.status(404).send("User not found");
 		}
-		res.render("form", { userId: id, user });
+
+		// Render form with user data
+		res.render("form", {userId: userId, user});
 	} catch (error) {
 		console.error(error);
 		res.status(500).send("Error fetching user");
 	}
 });
+
 
 // PUT запрос для обновления информации о пользователе
 router.put("/:id/edit", async (req, res) => {
@@ -118,8 +128,7 @@ router.put("/:id/edit", async (req, res) => {
 		};
 
 		if (passwd && passwd.trim() !== "") {
-			let hashedPassword = await bcrypt.hash(passwd, 10);
-			updateData.passwd = hashedPassword;
+			updateData.passwd = await bcrypt.hash(passwd, 10);
 		}
 
 		const updatedUser = await prisma.users.update({
@@ -163,6 +172,74 @@ router.delete("/delete-user/:id", async (req, res) => {
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: "Error deleting user" });
+	}
+});
+router.put("/lock", async (req, res) => {
+	try {
+		const token = req.cookies.token;
+		const userRole = await getUserRoleFromToken(token);
+
+		if (userRole === 2 || userRole === 1) {
+			const userIdToLock = req.body.userId; // Assuming the user ID to lock is sent in the request body
+
+			if (!userIdToLock) {
+				return res.status(400).send("User ID is required");
+			}
+
+			const userToLock = await prisma.users.findUnique({
+				where: {id: parseInt(userIdToLock)}
+			});
+
+			if (!userToLock) {
+				return res.status(404).send("User not found");
+			}
+
+			const result = await prisma.users.update({
+				where: {id: parseInt(userIdToLock)},
+				data: {is_locked: true}
+			});
+
+			res.json({message: "User locked successfully", user: result});
+		} else {
+			res.status(403).json({message: "Insufficient privileges"});
+		}
+	} catch (error) {
+		console.error(error);
+		res.status(500).send("Error locking user");
+	}
+});
+router.put("/unlock", async (req, res) => {
+	try {
+		const token = req.cookies.token;
+		const userRole = await getUserRoleFromToken(token);
+
+		if (userRole === 2 || userRole === 1) {
+			const userIdToLock = req.body.userId; // Assuming the user ID to lock is sent in the request body
+
+			if (!userIdToLock) {
+				return res.status(400).send("User ID is required");
+			}
+
+			const userToLock = await prisma.users.findUnique({
+				where: {id: parseInt(userIdToLock)}
+			});
+
+			if (!userToLock) {
+				return res.status(404).send("User not found");
+			}
+
+			const result = await prisma.users.update({
+				where: {id: parseInt(userIdToLock)},
+				data: {is_locked: false}
+			});
+
+			res.json({message: "User unlocked successfully", user: result});
+		} else {
+			res.status(403).json({message: "Insufficient privileges"});
+		}
+	} catch (error) {
+		console.error(error);
+		res.status(500).send("Error locking user");
 	}
 });
 

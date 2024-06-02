@@ -115,6 +115,7 @@ model users {
   user_role                   Int?
   username                    String?         @unique(map: "UQ__users__F3DBC57208A65445") @db.VarChar(200)
   passwd                      String?         @db.VarChar(255)
+  is_locked Boolean? @default(false, map: "DF__users__is_locked__3A4CA8FD")
   accounts                    accounts[]
   Chat_Chat_recieverIdTousers Chat[]          @relation("Chat_recieverIdTousers")
   sentMessages                Chat[]          @relation("SentMessages")

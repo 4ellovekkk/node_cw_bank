@@ -30,6 +30,17 @@ async function getUserRoleFromToken(token) {
 	}
 }
 
+async function getUserIdFromToken(token) {
+	try {
+		// Верификация токена
+		const decodedToken = jwt.verify(token, "secret_key");
+		return decodedToken.userId; // Возвращаем id пользователя из токена
+	} catch (error) {
+		console.error("Ошибка при получении id пользователя из токена:", error);
+		return null; // Возвращаем null в случае ошибки
+	}
+}
+
 router.get("/addDepositType", async (req, res) => {
 	try {
 		const token = req.cookies.token;
@@ -82,13 +93,15 @@ router.get("/addDepositConditions", async (req, res) => {
 			return res.status(403).json({ message: "Insufficient privileges" });
 		}
 
-		const depositConditions = await prisma.deposit_conditioins.findMany({
-			include: {
-				deposit_types: true,
-			},
-		});
-
-		res.render("createDepositCondition", {depositConditions});
+		try {
+			const depositTypes = await prisma.deposit_types.findMany();
+			const depositConditions = await prisma.deposit_conditioins.findMany();
+			const currencies = await prisma.currency.findMany();
+			res.render('createDepositCondition', {depositTypes, depositConditions, currencies});
+		} catch (error) {
+			console.error(error);
+			res.status(500).send("Error fetching deposit types");
+		}
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: "Error retrieving deposit conditions" });
@@ -186,8 +199,7 @@ router.post("/take-deposit", async (req, res) => {
 			return res.status(403).json({ error: "Insufficient priveleges" });
 		}
 
-		const decodedToken = jwt.verify(req.cookies.token, "secret_key");
-		const userId = decodedToken.id;
+		const userId = getUserIdFromToken(req.cookies.token)
 
 		const depositConditionName = req.body.depositConditionName;
 
