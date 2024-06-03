@@ -7,9 +7,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6f9b93c8-5d51-46a6-a997-41f22334faee" name="Changes" comment="">
+    <list default="true" id="6f9b93c8-5d51-46a6-a997-41f22334faee" name="Changes" comment="created credit calculator">
+      <change afterPath="$PROJECT_DIR$/views/calculator.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/result.ejs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Записка Макаров.docx" beforeDir="false" afterPath="$PROJECT_DIR$/Записка Макаров.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/creditRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/creditRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/user-dashboard.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/user-dashboard.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/~$писка Макаров.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Записка Макаров.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Записка Макаров.pdf" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +112,7 @@
       <workItem from="1717148169655" duration="10443000" />
       <workItem from="1717160400841" duration="8665000" />
       <workItem from="1717313276246" duration="20253000" />
-      <workItem from="1717403679805" duration="316000" />
+      <workItem from="1717403679805" duration="2409000" />
     </task>
     <task id="LOCAL-00001" summary="chat between admin and user added">
       <option name="closed" value="true" />
@@ -226,7 +231,8 @@
     <MESSAGE value="credit conditions add fixed, lock/unlock for user profiles added, auth modified" />
     <MESSAGE value="added account refill, fixed some minor bugs" />
     <MESSAGE value="i need to fix payment remember. calculators does not exists. everything else done" />
-    <option name="LAST_COMMIT_MESSAGE" value="i need to fix payment remember. calculators does not exists. everything else done" />
+    <MESSAGE value="created credit calculator" />
+    <option name="LAST_COMMIT_MESSAGE" value="created credit calculator" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>

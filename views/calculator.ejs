@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Кредитный калькулятор</title>
+</head>
+<body>
+<h1>Кредитный калькулятор</h1>
+<form action="/credit/calculate" method="post">
+    <label for="amount">Сумма кредита:</label>
+    <input type="number" id="amount" name="amount" required><br><br>
+
+    <label for="interestRate">Процентная ставка (% в год):</label>
+    <input type="number" id="interestRate" name="interestRate" step="0.01" required><br><br>
+
+    <label for="years">Срок кредита (лет):</label>
+    <input type="number" id="years" name="years" required><br><br>
+
+    <button type="submit">Рассчитать</button>
+</form>
+</body>
+</html>

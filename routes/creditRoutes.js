@@ -323,4 +323,18 @@ router.get('/my-credits', async (req, res) => {
 	res.render('my-credits', {credits});
 });
 
+router.get('/calculator', async (req, res) => {
+	const creditConditions = await prisma.credit_conditions.findMany();
+	res.render('calculator', {creditConditions});
+});
+
+router.post('/calculate', (req, res) => {
+	const {amount, interestRate, years} = req.body;
+	const monthlyRate = interestRate / 100 / 12;
+	const numberOfPayments = years * 12;
+	const monthlyPayment = amount * monthlyRate / (1 - (Math.pow(1 / (1 + monthlyRate), numberOfPayments)));
+
+	res.render('result', {amount, interestRate, years, monthlyPayment});
+});
+
 module.exports = router;
