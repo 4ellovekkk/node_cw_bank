@@ -54,36 +54,43 @@ router.get("/user-dashboard", async (req, res) => {
 	// Получение текущей даты
 	const currentDate = new Date();
 
-	// Получение ближайшей даты оплаты по кредиту
-	const nextPayment = await prisma.accounts.findMany({
+	// Получение ближайшей даты оплаты по кредиту из таблицы credit_history
+	const credits = await prisma.credit_history.findMany({
 		where: {
-			owner_id: userId,
-			account_type: 3 // Предполагается, что тип 3 - это тип кредитного счета
+			user_id: userId
 		},
 		include: {
-			operation_log: {
-				select: {
-					action_time: true
-				},
-				where: {
-					table_name: 'credit_payments'
-				},
-				orderBy: {
-					action_time: 'asc'
-				},
-				take: 1
-			}
+			credit_conditions: true
 		}
 	});
-	let nextPaymentDate;
-	if (nextPayment.length > 0) {
-		if (nextPayment[0].operation_log.length > 0) {
-			nextPaymentDate = nextPayment[0].operation_log[0].action_time;
-		} else {
-			nextPaymentDate = 'No upcoming payments';
+
+	let nextPaymentDate = 'No upcoming payments';
+
+	if (credits.length > 0) {
+		const today = new Date();
+		let nearestDate = null;
+
+		for (const credit of credits) {
+			const [month, day] = credit.credit_conditions.paydate.split('-').map(Number); // Assuming paydate is in "MM-DD" format
+
+			const thisYearPayment = new Date(today.getFullYear(), month - 1, day);
+			const nextYearPayment = new Date(today.getFullYear() + 1, month - 1, day);
+
+			let paymentDate;
+			if (thisYearPayment >= today) {
+				paymentDate = thisYearPayment;
+			} else {
+				paymentDate = nextYearPayment;
+			}
+
+			if (!nearestDate || paymentDate < nearestDate) {
+				nearestDate = paymentDate;
+			}
 		}
-	} else {
-		nextPaymentDate = 'No upcoming payments';
+
+		if (nearestDate) {
+			nextPaymentDate = nearestDate;
+		}
 	}
 
 	res.render("user-dashboard", {currentDate, nextPaymentDate});

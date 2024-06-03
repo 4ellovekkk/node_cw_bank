@@ -271,37 +271,48 @@ router.get('/open-credit', async (req, res) => {
 // Маршрут для обработки открытия кредита
 router.post('/open-credit', async (req, res) => {
 	if (parseInt(await getUserRoleFromToken(req.cookies.token)) !== 3) {
-		return res.status(401).json({message: "Insufficient privileges"});
+        return res.status(401).json({message: "Insufficient privileges"});
 	}
-	const userId = parseInt(await getUserIdFromToken(req.cookies.token))
+    const userId = parseInt(await getUserIdFromToken(req.cookies.token));
 
-	const {creditConditionId, initialAmount} = req.body;
-	const credit = await prisma.credit_conditions.findUnique({where: {id: parseInt(creditConditionId)}});
+    const {creditConditionId, initialAmount} = req.body;
+    const credit = await prisma.credit_conditions.findUnique({where: {id: parseInt(creditConditionId)}});
+    if (!credit) {
+        return res.status(404).json({message: "Credit condition not found"});
+    }
 	if (initialAmount > parseInt(credit.max_sum)) {
-		return res.status(402).json({message: "Select another credit type or lower amount"});
+        return res.status(402).json({message: "Select another credit type or lower amount"});
 	}
+
 	const newAccount = await prisma.accounts.create({
 		data: {
 			owner_id: userId,
-			account_type: 3, // Предполагается, что тип 3 - это тип кредитного счета
+            account_type: 3, // Assuming type 3 is the credit account type
 			balance: parseFloat(initialAmount),
-			currency: (await prisma.credit_conditions.findUnique({
-				where: {id: parseInt(creditConditionId)}
-			})).currency
+            currency: credit.currency
 		}
 	});
 
 	await prisma.operation_log.create({
 		data: {
-			user_id: parseInt(userId),
+            user_id: userId,
 			account_id: newAccount.id,
 			table_name: 'accounts',
 			additional_info: `Opened a new credit with initial amount ${initialAmount}`
 		}
 	});
 
+    await prisma.credit_history.create({
+        data: {
+            user_id: userId,
+            credit_id: parseInt(creditConditionId),
+            amount: parseFloat(initialAmount)
+        }
+    });
+
 	res.send('Credit account opened successfully');
 });
+
 
 // Маршрут для получения всех кредитов текущего пользователя
 router.get('/my-credits', async (req, res) => {

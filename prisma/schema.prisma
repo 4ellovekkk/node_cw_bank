@@ -34,15 +34,16 @@ model action_types {
 }
 
 model credit_conditions {
-  id                                            Int           @id(map: "PK__credit_c__3213E83F6D246337") @default(autoincrement())
-  credit_name                                   String?       @unique(map: "UQ__credit_c__E2D7E624B7F9B46A") @db.NVarChar(200)
+  id                                            Int             @id(map: "PK__credit_c__3213E83F6D246337") @default(autoincrement())
+  credit_name                                   String?         @unique(map: "UQ__credit_c__E2D7E624B7F9B46A") @db.NVarChar(200)
   credit_type                                   Int?
   percentage_per_year                           Float?
-  max_sum                                       Float?        @db.Money
+  max_sum                                       Float?          @db.Money
   currency                                      Int?
-  paydate                                       String?       @db.NVarChar(7)
-  credit_types                                  credit_types? @relation(fields: [credit_type], references: [id], onDelete: Cascade, map: "FK__credit_co__credi__4BAC3F29")
-  currency_credit_conditions_currencyTocurrency currency?     @relation("credit_conditions_currencyTocurrency", fields: [currency], references: [id], onDelete: Cascade, map: "FK__credit_co__curre__4CA06362")
+  paydate                                       String?         @db.NVarChar(7)
+  credit_types                                  credit_types?   @relation(fields: [credit_type], references: [id], onDelete: Cascade, map: "FK__credit_co__credi__4BAC3F29")
+  currency_credit_conditions_currencyTocurrency currency?       @relation("credit_conditions_currencyTocurrency", fields: [currency], references: [id], onDelete: Cascade, map: "FK__credit_co__curre__4CA06362")
+  credit_history                                credit_history[]
 }
 
 model credit_types {
@@ -115,10 +116,11 @@ model users {
   user_role                   Int?
   username                    String?         @unique(map: "UQ__users__F3DBC57208A65445") @db.VarChar(200)
   passwd                      String?         @db.VarChar(255)
-  is_locked Boolean? @default(false, map: "DF__users__is_locked__3A4CA8FD")
+  is_locked                   Boolean?        @default(false, map: "DF__users__is_locked__3A4CA8FD")
   accounts                    accounts[]
   Chat_Chat_recieverIdTousers Chat[]          @relation("Chat_recieverIdTousers")
   sentMessages                Chat[]          @relation("SentMessages")
+  credit_history              credit_history[]
   operation_log               operation_log[]
   role                        role?           @relation(fields: [user_role], references: [id], onDelete: Cascade, map: "FK__users__user_role__398D8EEE")
 }
@@ -131,4 +133,14 @@ model Chat {
   createdAt                    DateTime? @default(now(), map: "DF__Chat__createdAt__2B0A656D") @db.DateTime
   users_Chat_recieverIdTousers users?    @relation("Chat_recieverIdTousers", fields: [recieverId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Chat__recieverId__2A164134")
   sender                       users?    @relation("SentMessages", fields: [senderId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK__Chat__senderId__29221CFB")
+}
+
+model credit_history {
+  id                Int               @id(map: "PK__credit_h__3213E83F24A71E94") @default(autoincrement())
+  user_id           Int
+  credit_id         Int
+  amount            Float?            @db.Money
+  opened_at         DateTime?         @default(now(), map: "DF__credit_hi__opene__4F47C5E3") @db.DateTime
+  credit_conditions credit_conditions @relation(fields: [credit_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_credit_history_credit_id")
+  users             users             @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_credit_history_user_id")
 }
